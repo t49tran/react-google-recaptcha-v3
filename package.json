@@ -1,20 +1,21 @@
 {
   "name": "react-google-recaptcha-v3",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "React component for google-recaptcha v3",
   "module": "dist/react-google-recaptcha-v3.esm.js",
   "main": "dist/react-google-recaptcha-v3.cjs.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c rollup.config.js"
+    "build": "rollup -c rollup.config.js",
+    "prepublish": "npm run build"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "hoist-non-react-statics": "2.5.5",
-    "react": "16.6.3",
-    "react-dom": "16.6.3"
+    "hoist-non-react-statics": "^2.5.5",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
   },
   "devDependencies": {
     "@types/react": "16.7.13",
