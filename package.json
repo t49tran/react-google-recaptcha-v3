@@ -13,14 +13,18 @@
   "author": "Duong Tran",
   "homepage": "https://github.com/t49tran/react-google-recaptcha-v3",
   "license": "MIT",
-  "dependencies": {
-    "hoist-non-react-statics": "^2.5.5",
+  "peerDependencies": {
     "react": "^16.6.3",
     "react-dom": "^16.6.3"
+  },
+  "dependencies": {
+    "hoist-non-react-statics": "^2.5.5"
   },
   "devDependencies": {
     "@types/react": "16.7.13",
     "@types/react-dom": "16.0.11",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
     "rollup": "0.67.4",
     "rollup-plugin-commonjs": "9.2.0",
     "rollup-plugin-node-resolve": "3.4.0",

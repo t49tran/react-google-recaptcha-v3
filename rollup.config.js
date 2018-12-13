@@ -10,7 +10,7 @@ export default {
     { file: `dist/${pkg.name}.esm.js`, format: 'es', sourcemap: true },
     { file: `dist/${pkg.name}.cjs.js`, format: 'cjs', sourcemap: true }
   ],
-  external: ['react', 'react-dom'],
+  external: Object.keys(pkg.peerDependencies),
   watch: {
     include: 'src/**'
   },
