@@ -64,12 +64,12 @@ The object contains the `executeRecaptcha` function that can be called to valida
 ```javascript
 import {
   GoogleReCaptchaProvider,
-  GoogleReCaptcha
+  withGoogleReCaptcha
 } from 'react-google-recaptcha-v3';
 
 class ReCaptchaComponent extends React.Component {
   async componentDidMount() {
-    const token = await this.props.googleReCaptchaProps.executeRecaptcha({action: 'homepage'});
+    const token = await this.props.googleReCaptchaProps.executeRecaptcha('homepage');
   }
 
   render() {
