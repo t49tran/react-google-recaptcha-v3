@@ -20,7 +20,7 @@ const GoogleReCaptchaContext = React.createContext<
 
 const { Consumer: GoogleReCaptchaConsumer } = GoogleReCaptchaContext;
 
-export { GoogleReCaptchaConsumer };
+export { GoogleReCaptchaConsumer, GoogleReCaptchaContext };
 
 export class GoogleReCaptchaProvider extends React.Component<
   IGoogleReCaptchaProviderProps
