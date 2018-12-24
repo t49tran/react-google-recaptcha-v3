@@ -87,6 +87,10 @@ ReactDom.render(
 );
 ```
 
+## React Hook
+
+If you prefer the newly proposed React Hook over the HOC, check out the next version: [here](https://github.com/t49tran/react-google-recaptcha-v3/tree/next)
+
 ## Typescript
 
 This project is written in typescript and fully support it.
