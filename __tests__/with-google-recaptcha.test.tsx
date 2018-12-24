@@ -1,13 +1,10 @@
 import * as React from 'react';
 import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 import { GoogleReCaptchaProvider } from 'src/google-recaptcha-provider';
 import {
   withGoogleReCaptcha,
   IWithGoogleReCaptchaProps
 } from 'src/with-google-recaptcha';
-
-(Enzyme as any).configure({ adapter: new Adapter() });
 
 const TestComponent = () => <div />;
 

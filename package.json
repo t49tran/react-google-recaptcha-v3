@@ -1,6 +1,6 @@
 {
   "name": "react-google-recaptcha-v3",
-  "version": "0.1.3",
+  "version": "1.0.0-alpha",
   "description": "React component for google-recaptcha v3",
   "module": "dist/react-google-recaptcha-v3.esm.js",
   "main": "dist/react-google-recaptcha-v3.cjs.js",
@@ -8,7 +8,7 @@
   "scripts": {
     "test": "jest --verbose --env=jsdom",
     "build": "rollup -c rollup.config.js",
-    "prepublish": "npm run build"
+    "prepublish": "npm run test && npm run build"
   },
   "author": "Duong Tran",
   "homepage": "https://github.com/t49tran/react-google-recaptcha-v3",
