@@ -27,13 +27,13 @@ To use `react-google-recaptcha-v3`, you need to create a recaptcha key for your 
 `GoogleReCaptchaProvider`'s responsibility is to load the necessary reCaptcha script and provide access to reCaptcha to the rest of your application.
 
 ```javascript
-import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
 ReactDom.render(
   <GoogleReCaptchaProvider reCaptchaKey="[Your recaptcha key]">
     <YourApp />
   </GoogleReCaptchaProvider>,
-  document.getElementById('app')
+  document.getElementById("app")
 );
 ```
 
@@ -47,13 +47,13 @@ Afterwards, there are three ways to trigger the recaptcha validation, the first 
 import {
   GoogleReCaptchaProvider,
   GoogleReCaptcha
-} from 'react-google-recaptcha-v3';
+} from "react-google-recaptcha-v3";
 
 ReactDom.render(
   <GoogleReCaptchaProvider reCaptchaKey="[Your recaptcha key]">
     <GoogleReCaptcha onVerify={token => console.log(token)} />
   </GoogleReCaptchaProvider>,
-  document.getElementById('app')
+  document.getElementById("app")
 );
 ```
 
@@ -89,12 +89,7 @@ ReactDom.render(
 );
 ```
 
-<<<<<<< HEAD
-## React Hook
-
-If you prefer the newly proposed React Hook over the HOC, check out the next version: [here](https://github.com/t49tran/react-google-recaptcha-v3/tree/next)
-=======
-#### useGoogleReCaptcha
+#### React Hook: useGoogleReCaptcha
 
 If you prefer a React Hook approach over the ol good Higher Order Component, you can choose to use the custom hook `useGoogleReCaptcha` over the HOC `withGoogleReCaptcha`.
 
@@ -120,7 +115,6 @@ ReactDom.render(
   document.getElementById('app')
 );
 ```
->>>>>>> origin/next
 
 ## Typescript
 
