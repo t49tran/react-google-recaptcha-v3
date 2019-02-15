@@ -4,8 +4,6 @@
 
 `react-google-recaptcha-v3` is a library created to assist integrating Google ReCaptcha V3 to your React App.
 
-The `next` version of this library add a custom hook that use React Hook api.
-
 ## Install
 
 ```bash
