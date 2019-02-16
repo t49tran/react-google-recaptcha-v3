@@ -7,7 +7,7 @@
 ## Install
 
 ```bash
-npm install react-google-recaptcha-v3@next
+npm install react-google-recaptcha-v3
 ```
 
 ## Usage
@@ -102,6 +102,7 @@ import {
 // Remember that the hook can only be used within a React functional component
 const ReCaptchaComponent = () => {
   const { executeRecaptcha } = useGoogleReCaptcha();
+  const token = executeRecaptcha("login_page";
 
   return (...)
 }
@@ -117,3 +118,7 @@ ReactDom.render(
 ## Typescript
 
 This project is written in typescript and fully support it.
+
+## Example
+
+An example of how to use these two hooks can found inside the `example` folder.
