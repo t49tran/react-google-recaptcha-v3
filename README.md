@@ -25,19 +25,19 @@ To use `react-google-recaptcha-v3`, you need to create a recaptcha key for your 
 `GoogleReCaptchaProvider`'s responsibility is to load the necessary reCaptcha script and provide access to reCaptcha to the rest of your application.
 
 ```javascript
-import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
 ReactDom.render(
   <GoogleReCaptchaProvider reCaptchaKey="[Your recaptcha key]">
     <YourApp />
   </GoogleReCaptchaProvider>,
-  document.getElementById('app')
+  document.getElementById("app")
 );
 ```
 
-Afterwards, there are two way to trigger the recaptcha validation, one is using the `GoogleReCaptcha` component. The other is to use the HOC `withGoogleReCaptcha`.
+Afterwards, there are three ways to trigger the recaptcha validation, the first is using the `GoogleReCaptcha` component. The second is using the HOC `withGoogleReCaptcha`, and the last approach is using the custom hook `useGoogleReCaptcha`.
 
-##### GoogleReCaptcha
+#### GoogleReCaptcha
 
 `GoogleRecaptcha` is a react component that can be used in your app to trigger the validation. It provides a prop `onVerify`, which will be called once the verify is done successfully.
 
@@ -45,17 +45,17 @@ Afterwards, there are two way to trigger the recaptcha validation, one is using 
 import {
   GoogleReCaptchaProvider,
   GoogleReCaptcha
-} from 'react-google-recaptcha-v3';
+} from "react-google-recaptcha-v3";
 
 ReactDom.render(
   <GoogleReCaptchaProvider reCaptchaKey="[Your recaptcha key]">
     <GoogleReCaptcha onVerify={token => console.log(token)} />
   </GoogleReCaptchaProvider>,
-  document.getElementById('app')
+  document.getElementById("app")
 );
 ```
 
-##### withGoogleReCaptcha
+#### withGoogleReCaptcha
 
 `GoogleRecaptcha` is a HOC (higher order component) that can be used to integrate reCaptcha validation with your component and trigger the validation programmatically. It inject the wrapped component with `googleReCaptchaProps` object.
 
@@ -87,10 +87,38 @@ ReactDom.render(
 );
 ```
 
-## React Hook
+#### React Hook: useGoogleReCaptcha
 
-If you prefer the newly proposed React Hook over the HOC, check out the next version: [here](https://github.com/t49tran/react-google-recaptcha-v3/tree/next)
+If you prefer a React Hook approach over the ol good Higher Order Component, you can choose to use the custom hook `useGoogleReCaptcha` over the HOC `withGoogleReCaptcha`.
+
+It's very simple to use the hook:
+
+```javascript
+import {
+  GoogleReCaptchaProvider,
+  useGoogleReCaptcha
+} from 'react-google-recaptcha-v3';
+
+// Remember that the hook can only be used within a React functional component
+const ReCaptchaComponent = () => {
+  const { executeRecaptcha } = useGoogleReCaptcha();
+  const token = executeRecaptcha("login_page";
+
+  return (...)
+}
+
+ReactDom.render(
+  <GoogleReCaptchaProvider reCaptchaKey="[Your recaptcha key]">
+    <YourReCaptchaComponent />
+  </GoogleReCaptchaProvider>,
+  document.getElementById('app')
+);
+```
 
 ## Typescript
 
 This project is written in typescript and fully support it.
+
+## Example
+
+An example of how to use these two hooks can found inside the `example` folder.
