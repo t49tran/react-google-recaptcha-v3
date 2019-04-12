@@ -9,11 +9,16 @@
     "test": "jest --verbose --env=jsdom",
     "build": "rollup -c rollup.config.js",
     "prepublish": "npm run test && npm run build",
-    "build-example": "webpack --config webpack.config.js"
+    "build-example": "webpack --config webpack.config.js",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
   "author": "Duong Tran",
   "homepage": "https://github.com/t49tran/react-google-recaptcha-v3",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/t49tran/react-google-recaptcha-v3"
+  },
   "peerDependencies": {
     "react": "^16.8",
     "react-dom": "^16.8"
@@ -40,7 +45,9 @@
     "rollup-plugin-typescript2": "0.18.0",
     "source-map-loader": "0.2.4",
     "ts-jest": "23.10.5",
-    "typescript": "3.2.2",
+    "tslint": "5.15.0",
+    "tslint-react": "4.0.0",
+    "typescript": "3.4.3",
     "webpack": "4.29.4",
     "webpack-cli": "3.2.3",
     "webpack-dev-server": "3.1.14"

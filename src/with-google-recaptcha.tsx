@@ -13,33 +13,19 @@ export interface IWithGoogleReCaptchaProps {
 export const withGoogleReCaptcha = function<OwnProps>(
   Component: React.ComponentType<OwnProps & Partial<IWithGoogleReCaptchaProps>>
 ): React.ComponentType<OwnProps & Partial<IWithGoogleReCaptchaProps>> {
-  class WithGoogleReCaptchaComponent extends React.Component<
+  const WithGoogleReCaptchaComponent: React.FunctionComponent<
     OwnProps & Partial<IWithGoogleReCaptchaProps>
-  > {
-    static displayName: string;
-    static wrappedComponent: React.ComponentType<
-      OwnProps & Partial<IWithGoogleReCaptchaProps>
-    >;
-
-    render() {
-      return (
-        <GoogleReCaptchaConsumer>
-          {googleReCaptchaValues => (
-            <Component
-              {...this.props}
-              googleReCaptchaProps={googleReCaptchaValues}
-            />
-          )}
-        </GoogleReCaptchaConsumer>
-      );
-    }
-  }
+  > = props => (
+    <GoogleReCaptchaConsumer>
+      {googleReCaptchaValues => (
+        <Component {...props} googleReCaptchaProps={googleReCaptchaValues} />
+      )}
+    </GoogleReCaptchaConsumer>
+  );
 
   WithGoogleReCaptchaComponent.displayName = `withGoogleReCaptcha(${Component.displayName ||
     Component.name ||
     'Component'})`;
-
-  WithGoogleReCaptchaComponent.wrappedComponent = Component;
 
   hoistNonReactStatics(WithGoogleReCaptchaComponent, Component);
 

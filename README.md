@@ -25,13 +25,13 @@ To use `react-google-recaptcha-v3`, you need to create a recaptcha key for your 
 `GoogleReCaptchaProvider`'s responsibility is to load the necessary reCaptcha script and provide access to reCaptcha to the rest of your application.
 
 ```javascript
-import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 ReactDom.render(
   <GoogleReCaptchaProvider reCaptchaKey="[Your recaptcha key]">
     <YourApp />
   </GoogleReCaptchaProvider>,
-  document.getElementById("app")
+  document.getElementById('app')
 );
 ```
 
@@ -45,13 +45,13 @@ Afterwards, there are three ways to trigger the recaptcha validation, the first 
 import {
   GoogleReCaptchaProvider,
   GoogleReCaptcha
-} from "react-google-recaptcha-v3";
+} from 'react-google-recaptcha-v3';
 
 ReactDom.render(
   <GoogleReCaptchaProvider reCaptchaKey="[Your recaptcha key]">
     <GoogleReCaptcha onVerify={token => console.log(token)} />
   </GoogleReCaptchaProvider>,
-  document.getElementById("app")
+  document.getElementById('app')
 );
 ```
 
@@ -102,7 +102,7 @@ import {
 // Remember that the hook can only be used within a React functional component
 const ReCaptchaComponent = () => {
   const { executeRecaptcha } = useGoogleReCaptcha();
-  const token = executeRecaptcha("login_page";
+  const token = executeRecaptcha("login_page");
 
   return (...)
 }

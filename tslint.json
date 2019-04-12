@@ -1,0 +1,22 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended", "tslint-react"],
+  "rules": {
+    "quotemark": [
+      true,
+      "single",
+      "jsx-double",
+      "avoid-escape",
+      "avoid-template"
+    ],
+    "member-access": false,
+    "trailing-comma": false,
+    "no-console": false,
+    "arrow-parens": [true, "ban-single-arg-parens"],
+    "interface-over-type-literal": false,
+    "jsx-no-multiline-js": false,
+    "jsx-boolean-value": false,
+    "object-literal-sort-keys": false
+  },
+  "rulesDirectory": []
+}
