@@ -1,5 +1,5 @@
-import * as React from 'react';
 import Enzyme from 'enzyme';
+import * as React from 'react';
 import { GoogleReCaptchaProvider } from 'src/google-recaptcha-provider';
 import { useGoogleReCaptcha } from 'src/use-google-recaptcha';
 import { IWithGoogleReCaptchaProps } from 'src/with-google-recaptcha';

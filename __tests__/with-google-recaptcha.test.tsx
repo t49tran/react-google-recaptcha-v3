@@ -1,9 +1,9 @@
-import * as React from 'react';
 import Enzyme from 'enzyme';
+import * as React from 'react';
 import { GoogleReCaptchaProvider } from 'src/google-recaptcha-provider';
 import {
-  withGoogleReCaptcha,
-  IWithGoogleReCaptchaProps
+  IWithGoogleReCaptchaProps,
+  withGoogleReCaptcha
 } from 'src/with-google-recaptcha';
 
 const TestComponent = () => <div />;

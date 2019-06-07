@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {
-  withGoogleReCaptcha,
-  IWithGoogleReCaptchaProps
+  IWithGoogleReCaptchaProps,
+  withGoogleReCaptcha
 } from './with-google-recaptcha';
 
 export interface IGoogleRecaptchaProps {
