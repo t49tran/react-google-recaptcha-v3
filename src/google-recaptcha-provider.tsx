@@ -5,7 +5,7 @@ enum GoogleRecaptchaError {
 }
 
 interface IGoogleReCaptchaProviderProps {
-  reCaptchaKey: string;
+  reCaptchaKey?: string;
 }
 
 export interface IGoogleReCaptchaConsumerProps {
@@ -37,6 +37,12 @@ export class GoogleReCaptchaProvider extends React.Component<
 
   componentDidMount() {
     this.injectGoogleReCaptchaScript();
+  }
+
+  componentDidUpdate(prevProps: IGoogleReCaptchaProviderProps) {
+    if(!prevProps.reCaptchaKey && this.props.reCaptchaKey) {
+      this.injectGoogleReCaptchaScript();
+    }
   }
 
   get googleReCaptchaContextValue() {
@@ -73,6 +79,9 @@ export class GoogleReCaptchaProvider extends React.Component<
     }
 
     const { reCaptchaKey } = this.props;
+    if (!reCaptchaKey) {
+      return;
+    }
 
     const head = document.getElementsByTagName('head')[0];
 
