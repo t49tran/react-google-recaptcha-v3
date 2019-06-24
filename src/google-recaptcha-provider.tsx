@@ -36,13 +36,19 @@ export class GoogleReCaptchaProvider extends React.Component<
   });
 
   componentDidMount() {
+    if (!this.props.reCaptchaKey) {
+      return;
+    }
+
     this.injectGoogleReCaptchaScript();
   }
 
   componentDidUpdate(prevProps: IGoogleReCaptchaProviderProps) {
-    if(!prevProps.reCaptchaKey && this.props.reCaptchaKey) {
-      this.injectGoogleReCaptchaScript();
+    if (prevProps.reCaptchaKey || !this.props.reCaptchaKey) {
+      return;
     }
+
+    this.injectGoogleReCaptchaScript();
   }
 
   get googleReCaptchaContextValue() {
@@ -79,10 +85,6 @@ export class GoogleReCaptchaProvider extends React.Component<
     }
 
     const { reCaptchaKey } = this.props;
-    if (!reCaptchaKey) {
-      return;
-    }
-
     const head = document.getElementsByTagName('head')[0];
 
     const js = document.createElement('script');
