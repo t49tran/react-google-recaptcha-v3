@@ -27,6 +27,7 @@
     "hoist-non-react-statics": "^2.5.5"
   },
   "devDependencies": {
+    "@types/react-test-renderer": "16.8.2",
     "@types/enzyme": "3.1.15",
     "@types/enzyme-adapter-react-16": "1.0.3",
     "@types/jest": "24.0.13",
