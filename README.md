@@ -24,11 +24,17 @@ To use `react-google-recaptcha-v3`, you need to create a recaptcha key for your 
 
 `GoogleReCaptchaProvider`'s responsibility is to load the necessary reCaptcha script and provide access to reCaptcha to the rest of your application.
 
+It also provides an optional prop `language` to support different languages that is supported by Google Recaptcha.
+https://developers.google.com/recaptcha/docs/language
+
 ```javascript
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 ReactDom.render(
-  <GoogleReCaptchaProvider reCaptchaKey="[Your recaptcha key]">
+  <GoogleReCaptchaProvider
+    reCaptchaKey="[Your recaptcha key]"
+    language="[optional_language]"
+  >
     <YourApp />
   </GoogleReCaptchaProvider>,
   document.getElementById('app')
