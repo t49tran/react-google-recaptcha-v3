@@ -6,6 +6,7 @@ enum GoogleRecaptchaError {
 
 interface IGoogleReCaptchaProviderProps {
   reCaptchaKey?: string;
+  language?: string;
 }
 
 export interface IGoogleReCaptchaConsumerProps {
@@ -84,12 +85,14 @@ export class GoogleReCaptchaProvider extends React.Component<
       return;
     }
 
-    const { reCaptchaKey } = this.props;
+    const { reCaptchaKey, language } = this.props;
     const head = document.getElementsByTagName('head')[0];
 
     const js = document.createElement('script');
     js.id = this.scriptId;
-    js.src = `${this.googleRecaptchaSrc}?render=${reCaptchaKey}`;
+    js.src = `${this.googleRecaptchaSrc}?render=${reCaptchaKey}${
+      language ? `&hl=${language}` : ''
+    }`;
     js.onload = this.handleOnLoad;
 
     head.appendChild(js);
