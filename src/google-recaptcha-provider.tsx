@@ -7,6 +7,7 @@ enum GoogleRecaptchaError {
 interface IGoogleReCaptchaProviderProps {
   reCaptchaKey?: string;
   language?: string;
+  badge?: string;
 }
 
 export interface IGoogleReCaptchaConsumerProps {
@@ -65,11 +66,20 @@ export class GoogleReCaptchaProvider extends React.Component<
   };
 
   handleOnLoad = () => {
+    const { reCaptchaKey, badge } = this.props;
+
     if (!window || !(window as any).grecaptcha) {
       console.warn(GoogleRecaptchaError.SCRIPT_NOT_AVAILABLE);
 
       return;
     }
+
+    if (badge) {
+      (window as any).grecaptcha.render({
+        sitekey: reCaptchaKey,
+        badge,
+      });
+    };
 
     (window as any).grecaptcha.ready(() => {
       this.resolver((window as any).grecaptcha);
