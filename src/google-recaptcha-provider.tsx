@@ -82,6 +82,7 @@ export class GoogleReCaptchaProvider extends React.Component<
      * return to avoid duplicated scripts
      */
     if (document.getElementById(this.scriptId)) {
+      this.handleOnLoad();
       return;
     }
 
