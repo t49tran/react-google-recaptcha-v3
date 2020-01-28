@@ -52,6 +52,20 @@ export class GoogleReCaptchaProvider extends React.Component<
     this.injectGoogleReCaptchaScript();
   }
 
+  componentWillUnmount(): void {
+    // remove badge
+      const nodeBadge = document.querySelector('.grecaptcha-badge');
+      if (nodeBadge && nodeBadge.parentNode) {
+        document.body.removeChild(nodeBadge.parentNode);
+      }
+
+    // remove script
+      const script = document.querySelector(`#${this.scriptId}`);
+      if (script) {
+        script.remove();
+      }
+  }
+
   get googleReCaptchaContextValue() {
     return { executeRecaptcha: this.executeRecaptcha };
   }
