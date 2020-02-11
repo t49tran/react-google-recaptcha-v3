@@ -106,7 +106,7 @@ import {
 } from 'react-google-recaptcha-v3';
 
 // Remember that the hook can only be used within a React functional component
-const ReCaptchaComponent = () => {
+const YourReCaptchaComponent  = () => {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const token = executeRecaptcha("login_page");
 
