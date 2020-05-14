@@ -1,8 +1,13 @@
-# React Google Recaptcha V3
+<h1 align="center">React Google Recaptcha V3</h1>
+<div align="center">
 
-## Overview
+[React](https://reactjs.org/) library for integrating Google ReCaptcha V3 to your App.
 
-`react-google-recaptcha-v3` is a library created to assist integrating Google ReCaptcha V3 to your React App.
+[![npm package](https://img.shields.io/npm/v/@material-ui/core/latest.svg)](https://www.npmjs.com/package/react-google-recaptcha-v3)
+![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)
+![type definition](https://img.shields.io/npm/types/react-google-recaptcha-v3)
+
+</div>
 
 ## Install
 
@@ -27,7 +32,7 @@ To use `react-google-recaptcha-v3`, you need to create a recaptcha key for your 
 It also provides an optional prop `language` to support different languages that is supported by Google Recaptcha.
 https://developers.google.com/recaptcha/docs/language
 
-If `google.com` is not accessible for you, you can tell the provider to load the script from `recaptcha.net` using `useRecaptchaNet` prop.
+The provider also provide the prop `useRecaptchaNet` to load script from `recaptcha.net`:
 https://developers.google.com/recaptcha/docs/faq#can-i-use-recaptcha-globally
 
 ```javascript
@@ -45,7 +50,7 @@ ReactDom.render(
 );
 ```
 
-Afterwards, there are three ways to trigger the recaptcha validation, the first is using the `GoogleReCaptcha` component. The second is using the HOC `withGoogleReCaptcha`, and the last approach is using the custom hook `useGoogleReCaptcha`.
+There are three ways to trigger the recaptcha validation: using the `GoogleReCaptcha` component, wrapping your component with the HOC `withGoogleReCaptcha`, or using the custom hook `useGoogleReCaptcha`.
 
 #### GoogleReCaptcha
 
@@ -109,7 +114,6 @@ import {
   useGoogleReCaptcha
 } from 'react-google-recaptcha-v3';
 
-// Remember that the hook can only be used within a React functional component
 const YourReCaptchaComponent  = () => {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const token = executeRecaptcha("login_page");
@@ -125,16 +129,16 @@ ReactDom.render(
 );
 ```
 
-## Typescript
-
-This project is written in typescript and fully support it.
-
 ## Example
 
-An example of how to use these two hooks can found inside the `example` folder.
-
-You will need to provide an .env file with a recaptcha key if you want to run it on your own machine.
+An example of how to use these two hooks can found inside the `example` folder. You will need to provide an .env file if you want to run it on your own machine.
 
 ```
-RECAPTCHA_KEY=
+RECAPTCHA_KEY=[YOUR_RECAPTCHA_KEY]
 ```
+
+## Sponsors
+
+<a href="https://wavedigital.com.au/" rel="noopener sponsored" target="_blank" style="margin-right: 16px;" title="Wave Digital">
+<img width="75" src="https://dyp3dma8oum24.cloudfront.net/wp-content/themes/wavedigital/dist/assets/images/logo/wave-logo.png" alt="Wave Digital" loading="lazy" />
+</a>
