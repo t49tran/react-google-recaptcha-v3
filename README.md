@@ -3,7 +3,7 @@
 
 [React](https://reactjs.org/) library for integrating Google ReCaptcha V3 to your App.
 
-[![npm package](https://img.shields.io/npm/v/@material-ui/core/latest.svg)](https://www.npmjs.com/package/react-google-recaptcha-v3)
+[![npm package](https://img.shields.io/npm/v/react-google-recaptcha-v3/latest.svg)](https://www.npmjs.com/package/react-google-recaptcha-v3)
 ![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)
 ![type definition](https://img.shields.io/npm/types/react-google-recaptcha-v3)
 
@@ -14,6 +14,12 @@
 ```bash
 npm install react-google-recaptcha-v3
 ```
+
+## Sponsors
+
+<a href="https://wavedigital.com.au/" rel="noopener sponsored" target="_blank" style="margin-right: 16px;" title="Wave Digital">
+<img width="75" src="https://dyp3dma8oum24.cloudfront.net/wp-content/themes/wavedigital/dist/assets/images/logo/wave-logo.png" alt="Wave Digital" loading="lazy" />
+</a>
 
 ## Usage
 
@@ -136,9 +142,3 @@ An example of how to use these two hooks can found inside the `example` folder. 
 ```
 RECAPTCHA_KEY=[YOUR_RECAPTCHA_KEY]
 ```
-
-## Sponsors
-
-<a href="https://wavedigital.com.au/" rel="noopener sponsored" target="_blank" style="margin-right: 16px;" title="Wave Digital">
-<img width="75" src="https://dyp3dma8oum24.cloudfront.net/wp-content/themes/wavedigital/dist/assets/images/logo/wave-logo.png" alt="Wave Digital" loading="lazy" />
-</a>
