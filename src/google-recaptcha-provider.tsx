@@ -1,13 +1,13 @@
 import * as React from 'react';
 
 enum GoogleRecaptchaError {
-  SCRIPT_NOT_AVAILABLE = 'Google recaptcha is not available'
+  SCRIPT_NOT_AVAILABLE = 'Recaptcha script is not available'
 }
 
 interface IGoogleReCaptchaProviderProps {
   reCaptchaKey?: string;
-  useRecaptchaNet?: boolean;
   language?: string;
+  useRecaptchaNet?: boolean;
 }
 
 export interface IGoogleReCaptchaConsumerProps {
@@ -28,8 +28,6 @@ export class GoogleReCaptchaProvider extends React.Component<
   IGoogleReCaptchaProviderProps
 > {
   scriptId = 'google-recaptcha-v3';
-  hostname = this.props.useRecaptchaNet ? 'recaptcha.net' : 'google.com';
-  googleRecaptchaSrc = `https://www.${hostname}/recaptcha/api.js`;
   resolver: any = undefined;
   rejecter: any = undefined;
 
@@ -37,6 +35,17 @@ export class GoogleReCaptchaProvider extends React.Component<
     this.resolver = resolve;
     this.rejecter = reject;
   });
+
+  get googleRecaptchaSrc() {
+    const { useRecaptchaNet } = this.props;
+    const hostName = useRecaptchaNet ? 'recaptcha.net' : 'google.com';
+
+    return `https://www.${hostName}/recaptcha/api.js`;
+  }
+
+  get googleReCaptchaContextValue() {
+    return { executeRecaptcha: this.executeRecaptcha };
+  }
 
   componentDidMount() {
     if (!this.props.reCaptchaKey) {
@@ -54,22 +63,18 @@ export class GoogleReCaptchaProvider extends React.Component<
     this.injectGoogleReCaptchaScript();
   }
 
-  componentWillUnmount(): void {
+  componentWillUnmount() {
     // remove badge
-      const nodeBadge = document.querySelector('.grecaptcha-badge');
-      if (nodeBadge && nodeBadge.parentNode) {
-        document.body.removeChild(nodeBadge.parentNode);
-      }
+    const nodeBadge = document.querySelector('.grecaptcha-badge');
+    if (nodeBadge && nodeBadge.parentNode) {
+      document.body.removeChild(nodeBadge.parentNode);
+    }
 
     // remove script
-      const script = document.querySelector(`#${this.scriptId}`);
-      if (script) {
-        script.remove();
-      }
-  }
-
-  get googleReCaptchaContextValue() {
-    return { executeRecaptcha: this.executeRecaptcha };
+    const script = document.querySelector(`#${this.scriptId}`);
+    if (script) {
+      script.remove();
+    }
   }
 
   executeRecaptcha = async (action?: string) => {
