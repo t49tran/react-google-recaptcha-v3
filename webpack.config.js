@@ -1,21 +1,23 @@
-const path = require("path");
+const path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
-  mode: "development",
-  entry: "./example/index.tsx",
+  mode: 'development',
+  entry: './example/index.tsx',
   output: {
-    filename: "bundle.js",
-    path: __dirname + "/build"
+    filename: 'bundle.js',
+    path: __dirname + '/build'
   },
-  devtool: "source-map",
+  devtool: 'source-map',
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".json"],
-    alias: { react: path.resolve(__dirname, "node_modules/react") }
+    extensions: ['.ts', '.tsx', '.js', '.json'],
+    alias: { react: path.resolve(__dirname, 'node_modules/react') }
   },
   module: {
     rules: [
-      { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
-      { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
+      { test: /\.tsx?$/, loader: 'awesome-typescript-loader' },
+      { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' }
     ]
-  }
+  },
+  plugins: [new Dotenv()]
 };
