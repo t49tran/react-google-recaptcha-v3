@@ -128,7 +128,7 @@ export class GoogleReCaptchaProvider extends React.Component<
     js.onload = this.handleOnLoad;
 
     return js;
-  }
+  };
 
   render() {
     const { children } = this.props;
