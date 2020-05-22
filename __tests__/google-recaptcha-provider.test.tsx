@@ -17,4 +17,20 @@ describe('<GoogleReCaptchaProvider />', () => {
       'https://www.recaptcha.net/recaptcha/api.js'
     );
   });
+
+  it('puts a nonce to the script if provided', () => {
+    const mountedComponent = Enzyme.mount(
+      <GoogleReCaptchaProvider reCaptchaKey="TESTKEY" nonce="NONCE">
+        <div />
+      </GoogleReCaptchaProvider>
+    );
+
+    const googleRecaptchaScript = (mountedComponent.instance() as GoogleReCaptchaProvider)
+      .generateGoogleReCaptchaScript();
+
+    expect(googleRecaptchaScript.outerHTML).toEqual(
+      '<script id="google-recaptcha-v3" ' +
+      'src="https://www.google.com/recaptcha/api.js?render=TESTKEY" nonce="NONCE"></script>'
+    );
+  });
 });
