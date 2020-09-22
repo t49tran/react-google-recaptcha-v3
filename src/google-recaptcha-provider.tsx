@@ -58,6 +58,8 @@ export class GoogleReCaptchaProvider extends React.Component<
 
   componentDidUpdate(prevProps: IGoogleReCaptchaProviderProps) {
     if (prevProps.reCaptchaKey || !this.props.reCaptchaKey) {
+      console.warn('<GoogleReCaptchaProvider /> recaptcha key not provided');
+
       return;
     }
 
