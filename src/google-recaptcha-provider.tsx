@@ -50,6 +50,8 @@ export class GoogleReCaptchaProvider extends React.Component<
 
   componentDidMount() {
     if (!this.props.reCaptchaKey) {
+      console.warn('<GoogleReCaptchaProvider /> recaptcha key not provided');
+
       return;
     }
 
@@ -57,9 +59,11 @@ export class GoogleReCaptchaProvider extends React.Component<
   }
 
   componentDidUpdate(prevProps: IGoogleReCaptchaProviderProps) {
-    if (prevProps.reCaptchaKey || !this.props.reCaptchaKey) {
+    if (!this.props.reCaptchaKey) {
       console.warn('<GoogleReCaptchaProvider /> recaptcha key not provided');
+    }
 
+    if (prevProps.reCaptchaKey || !this.props.reCaptchaKey) {
       return;
     }
 
