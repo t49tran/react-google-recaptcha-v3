@@ -1,6 +1,6 @@
 {
   "name": "react-google-recaptcha-v3",
-  "version": "1.6.0",
+  "version": "1.6.0-beta",
   "description": "React component for google-recaptcha v3",
   "module": "dist/react-google-recaptcha-v3.esm.js",
   "main": "dist/react-google-recaptcha-v3.cjs.js",
