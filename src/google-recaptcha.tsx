@@ -1,42 +1,40 @@
-import * as React from 'react';
-import {
-  IWithGoogleReCaptchaProps,
-  withGoogleReCaptcha
-} from './with-google-recaptcha';
+import { FC, useEffect } from 'react';
+import { useGoogleReCaptcha } from './use-google-recaptcha';
 
 export interface IGoogleRecaptchaProps {
   onVerify: (token: string) => void | Promise<void>;
   action?: string;
+  runOnlyOnMount?: boolean;
 }
 
-class GoogleReCaptcha extends React.Component<IGoogleRecaptchaProps> {
-  async componentDidMount() {
-    const { googleReCaptchaProps, action, onVerify } = this.injectedProps;
+export const GoogleReCaptcha: FC<IGoogleRecaptchaProps> = ({
+  action,
+  onVerify,
+  runOnlyOnMount
+}) => {
+  const googleRecaptchaContextValue = useGoogleReCaptcha();
 
-    const { executeRecaptcha } = googleReCaptchaProps;
+  useEffect(() => {
+    const { executeRecaptcha } = googleRecaptchaContextValue;
+    const handleExecuteRecaptcha = async () => {
+      if (!executeRecaptcha) {
+        console.warn('Execute recaptcha function not defined');
+        return;
+      }
 
-    if (!executeRecaptcha) {
-      return;
-    }
+      const token = await executeRecaptcha(action);
 
-    const token = await executeRecaptcha(action);
+      if (!onVerify) {
+        console.warn('Please define an onVerify function');
 
-    if (!onVerify) {
-      return;
-    }
+        return;
+      }
 
-    onVerify(token);
-  }
+      onVerify(token);
+    };
 
-  get injectedProps() {
-    return this.props as IGoogleRecaptchaProps & IWithGoogleReCaptchaProps;
-  }
+    handleExecuteRecaptcha();
+  }, [action, onVerify, googleRecaptchaContextValue]);
 
-  render() {
-    return null;
-  }
-}
-
-const WrappedGoogleRecaptcha = withGoogleReCaptcha(GoogleReCaptcha);
-
-export { WrappedGoogleRecaptcha as GoogleReCaptcha };
+  return null;
+};
