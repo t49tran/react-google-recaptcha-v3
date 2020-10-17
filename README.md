@@ -132,7 +132,7 @@ ReactDom.render(
 
 #### React Hook: useGoogleReCaptcha
 
-If you prefer a React Hook approach over the ol good Higher Order Component, you can choose to use the custom hook `useGoogleReCaptcha` over the HOC `withGoogleReCaptcha`.
+If you prefer a React Hook approach over the old good Higher Order Component, you can choose to use the custom hook `useGoogleReCaptcha` over the HOC `withGoogleReCaptcha`.
 
 It's very simple to use the hook:
 
