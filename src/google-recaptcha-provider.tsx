@@ -12,14 +12,12 @@ interface IGoogleReCaptchaProviderProps {
 }
 
 export interface IGoogleReCaptchaConsumerProps {
-  executeRecaptcha?: (action?: string) => Promise<string>;
+  executeRecaptcha: (action?: string) => Promise<string>;
 }
 
 const GoogleReCaptchaContext = React.createContext<
   IGoogleReCaptchaConsumerProps
->({
-  // dummy default context;
-});
+>({} as IGoogleReCaptchaConsumerProps);
 
 const { Consumer: GoogleReCaptchaConsumer } = GoogleReCaptchaContext;
 
