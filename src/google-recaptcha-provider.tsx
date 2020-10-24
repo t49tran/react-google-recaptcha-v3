@@ -11,6 +11,7 @@ interface IGoogleReCaptchaProviderProps {
   nonce?: string;
   defer?: boolean;
   async?: boolean;
+  appendTo?: 'head' | 'body';
 }
 
 export interface IGoogleReCaptchaConsumerProps {
@@ -116,11 +117,15 @@ export class GoogleReCaptchaProvider extends React.Component<
       return;
     }
 
-    const head = document.getElementsByTagName('head')[0];
-
     const js = this.generateGoogleReCaptchaScript();
 
-    head.appendChild(js);
+    if (this.props.appendTo === 'body') {
+      document.body.appendChild(js);
+    } else {
+      const head = document.getElementsByTagName('head')[0];
+
+      head.appendChild(js);
+    }
   };
 
   generateGoogleReCaptchaScript = () => {
