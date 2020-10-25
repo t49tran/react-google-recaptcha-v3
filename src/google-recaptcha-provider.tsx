@@ -138,12 +138,8 @@ export class GoogleReCaptchaProvider extends React.Component<
     if (!!nonce) {
       js.nonce = nonce;
     }
-    if (!!defer) {
-      js.defer = true;
-    }
-    if (!!async) {
-      js.async = true;
-    }
+    js.defer = !!defer;
+    js.async = !!async;
     js.onload = this.handleOnLoad;
 
     return js;

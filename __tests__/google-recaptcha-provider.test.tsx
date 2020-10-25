@@ -45,8 +45,7 @@ describe('<GoogleReCaptchaProvider />', () => {
       .generateGoogleReCaptchaScript();
 
     expect(googleRecaptchaScript.outerHTML).toEqual(
-      '<script id="google-recaptcha-v3" ' +
-      'src="https://www.google.com/recaptcha/api.js?render=TESTKEY" nonce="NONCE" defer=""></script>'
+      '<script id="google-recaptcha-v3" src="https://www.google.com/recaptcha/api.js?render=TESTKEY" nonce="NONCE" defer=""></script>'
     );
   });
 
@@ -61,8 +60,7 @@ describe('<GoogleReCaptchaProvider />', () => {
       .generateGoogleReCaptchaScript();
 
     expect(googleRecaptchaScript.outerHTML).toEqual(
-      '<script id="google-recaptcha-v3" ' +
-      'src="https://www.google.com/recaptcha/api.js?render=TESTKEY" nonce="NONCE" async=""></script>'
+      '<script id="google-recaptcha-v3" src="https://www.google.com/recaptcha/api.js?render=TESTKEY" nonce="NONCE" async=""></script>'
     );
   });
 });
