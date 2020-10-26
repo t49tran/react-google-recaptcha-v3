@@ -33,4 +33,34 @@ describe('<GoogleReCaptchaProvider />', () => {
       'src="https://www.google.com/recaptcha/api.js?render=TESTKEY" nonce="NONCE"></script>'
     );
   });
+
+  it('puts a defer to the script if provided', () => {
+    const mountedComponent = Enzyme.mount(
+      <GoogleReCaptchaProvider reCaptchaKey="TESTKEY" nonce="NONCE" defer>
+        <div />
+      </GoogleReCaptchaProvider>
+    );
+
+    const googleRecaptchaScript = (mountedComponent.instance() as GoogleReCaptchaProvider)
+      .generateGoogleReCaptchaScript();
+
+    expect(googleRecaptchaScript.outerHTML).toEqual(
+      '<script id="google-recaptcha-v3" src="https://www.google.com/recaptcha/api.js?render=TESTKEY" nonce="NONCE" defer=""></script>'
+    );
+  });
+
+  xit('puts an async to the script if provided', () => {
+    const mountedComponent = Enzyme.mount(
+      <GoogleReCaptchaProvider reCaptchaKey="TESTKEY" nonce="NONCE" async>
+        <div />
+      </GoogleReCaptchaProvider>
+    );
+
+    const googleRecaptchaScript = (mountedComponent.instance() as GoogleReCaptchaProvider)
+      .generateGoogleReCaptchaScript();
+
+    expect(googleRecaptchaScript.outerHTML).toEqual(
+      '<script id="google-recaptcha-v3" src="https://www.google.com/recaptcha/api.js?render=TESTKEY" nonce="NONCE" async=""></script>'
+    );
+  });
 });

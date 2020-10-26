@@ -9,6 +9,9 @@ interface IGoogleReCaptchaProviderProps {
   language?: string;
   useRecaptchaNet?: boolean;
   nonce?: string;
+  defer?: boolean;
+  async?: boolean;
+  appendTo?: 'head' | 'body';
 }
 
 export interface IGoogleReCaptchaConsumerProps {
@@ -114,15 +117,19 @@ export class GoogleReCaptchaProvider extends React.Component<
       return;
     }
 
-    const head = document.getElementsByTagName('head')[0];
-
     const js = this.generateGoogleReCaptchaScript();
 
-    head.appendChild(js);
+    if (this.props.appendTo === 'body') {
+      document.body.appendChild(js);
+    } else {
+      const head = document.getElementsByTagName('head')[0];
+
+      head.appendChild(js);
+    }
   };
 
   generateGoogleReCaptchaScript = () => {
-    const { reCaptchaKey, language, nonce } = this.props;
+    const { reCaptchaKey, language, nonce, defer, async } = this.props;
     const js = document.createElement('script');
     js.id = this.scriptId;
     js.src = `${this.googleRecaptchaSrc}?render=${reCaptchaKey}${
@@ -131,6 +138,8 @@ export class GoogleReCaptchaProvider extends React.Component<
     if (!!nonce) {
       js.nonce = nonce;
     }
+    js.defer = !!defer;
+    js.async = !!async;
     js.onload = this.handleOnLoad;
 
     return js;
