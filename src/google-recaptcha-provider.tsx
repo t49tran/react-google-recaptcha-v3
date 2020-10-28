@@ -8,7 +8,7 @@ interface IGoogleReCaptchaProviderProps {
   reCaptchaKey?: string;
   language?: string;
   useRecaptchaNet?: boolean;
-  scriptProps: {
+  scriptProps?: {
     nonce?: string;
     defer?: boolean;
     async?: boolean;
