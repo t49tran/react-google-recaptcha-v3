@@ -8,10 +8,12 @@ interface IGoogleReCaptchaProviderProps {
   reCaptchaKey?: string;
   language?: string;
   useRecaptchaNet?: boolean;
-  nonce?: string;
-  defer?: boolean;
-  async?: boolean;
-  appendTo?: 'head' | 'body';
+  scriptProps: {
+    nonce?: string;
+    defer?: boolean;
+    async?: boolean;
+    appendTo?: 'head' | 'body';
+  };
 }
 
 export interface IGoogleReCaptchaConsumerProps {
@@ -118,26 +120,31 @@ export class GoogleReCaptchaProvider extends React.Component<
     }
 
     const js = this.generateGoogleReCaptchaScript();
+    const { appendTo } = this.props.scriptProps || {};
+    const elementToInjectScript =
+      appendTo === 'body'
+        ? document.body
+        : document.getElementsByTagName('head')[0];
 
-    if (this.props.appendTo === 'body') {
-      document.body.appendChild(js);
-    } else {
-      const head = document.getElementsByTagName('head')[0];
-
-      head.appendChild(js);
-    }
+    elementToInjectScript.appendChild(js);
   };
 
   generateGoogleReCaptchaScript = () => {
-    const { reCaptchaKey, language, nonce, defer, async } = this.props;
+    const {
+      reCaptchaKey,
+      language,
+      scriptProps: { nonce, defer, async } = {}
+    } = this.props;
     const js = document.createElement('script');
     js.id = this.scriptId;
     js.src = `${this.googleRecaptchaSrc}?render=${reCaptchaKey}${
       language ? `&hl=${language}` : ''
     }`;
+
     if (!!nonce) {
       js.nonce = nonce;
     }
+
     js.defer = !!defer;
     js.async = !!async;
     js.onload = this.handleOnLoad;
