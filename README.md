@@ -93,13 +93,13 @@ ReactDom.render(
 
 const MyComponent: FC = () => {
   const [token, setToken] = useState();
-
+  const onVerify = useCallback((token) => {
+    setToken(token);
+  }, []);
   return (
     <div>
       <GoogleReCaptcha
-        onVerify={token => {
-          setToken(token);
-        }}
+        onVerify={onVerify}
       />
     </div>
   );
