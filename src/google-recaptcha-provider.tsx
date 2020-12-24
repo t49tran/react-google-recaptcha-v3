@@ -17,22 +17,23 @@ interface IGoogleReCaptchaProviderProps {
 }
 
 export interface IGoogleReCaptchaConsumerProps {
-  executeRecaptcha?: (action?: string) => Promise<string>;
+  executeRecaptcha: (action?: string) => Promise<string>;
 }
 
-const GoogleReCaptchaContext = React.createContext<
-  IGoogleReCaptchaConsumerProps
->({
-  // dummy default context;
-});
+const GoogleReCaptchaContext = React.createContext<IGoogleReCaptchaConsumerProps>(
+  {
+    executeRecaptcha: () => {
+      // This default context function is not supposed to be called
+      throw Error('GoogleReCaptcha Context has not yet been implemented');
+    }
+  }
+);
 
 const { Consumer: GoogleReCaptchaConsumer } = GoogleReCaptchaContext;
 
 export { GoogleReCaptchaConsumer, GoogleReCaptchaContext };
 
-export class GoogleReCaptchaProvider extends React.Component<
-  IGoogleReCaptchaProviderProps
-> {
+export class GoogleReCaptchaProvider extends React.Component<IGoogleReCaptchaProviderProps> {
   scriptId = 'google-recaptcha-v3';
   resolver: any = undefined;
   rejecter: any = undefined;
