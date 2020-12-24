@@ -20,17 +20,35 @@ describe('<GoogleReCaptchaProvider />', () => {
 
   it('puts a nonce to the script if provided', () => {
     const mountedComponent = Enzyme.mount(
-      <GoogleReCaptchaProvider reCaptchaKey="TESTKEY" nonce="NONCE">
+      <GoogleReCaptchaProvider
+        reCaptchaKey="TESTKEY"
+        scriptProps={{ nonce: 'NONCE' }}
+      >
         <div />
       </GoogleReCaptchaProvider>
     );
 
-    const googleRecaptchaScript = (mountedComponent.instance() as GoogleReCaptchaProvider)
-      .generateGoogleReCaptchaScript();
+    const googleRecaptchaScript = (mountedComponent.instance() as GoogleReCaptchaProvider).generateGoogleReCaptchaScript();
+    expect(googleRecaptchaScript.getAttribute('nonce')).toEqual('NONCE');
+  });
+
+  it('puts a defer to the script if provided', () => {
+    const mountedComponent = Enzyme.mount(
+      <GoogleReCaptchaProvider
+        reCaptchaKey="TESTKEY"
+        scriptProps={{
+          nonce: 'NONCE',
+          defer: true
+        }}
+      >
+        <div />
+      </GoogleReCaptchaProvider>
+    );
+
+    const googleRecaptchaScript = (mountedComponent.instance() as GoogleReCaptchaProvider).generateGoogleReCaptchaScript();
 
     expect(googleRecaptchaScript.outerHTML).toEqual(
-      '<script id="google-recaptcha-v3" ' +
-      'src="https://www.google.com/recaptcha/api.js?render=TESTKEY" nonce="NONCE"></script>'
+      `<script id="google-recaptcha-v3" src="https://www.google.com/recaptcha/api.js?render=TESTKEY" nonce="NONCE" defer=""></script>`
     );
   });
 });

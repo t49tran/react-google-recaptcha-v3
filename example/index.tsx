@@ -7,6 +7,7 @@ ReactDom.render(
   <GoogleReCaptchaProvider
     useRecaptchaNet
     reCaptchaKey={process.env.RECAPTCHA_KEY}
+    scriptProps={{ async: true, defer: true, appendTo: 'body' }}
   >
     <h2>Google Recaptcha Example</h2>
     <GoogleRecaptchaExample />

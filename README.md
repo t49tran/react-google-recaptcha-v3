@@ -35,6 +35,8 @@ To use `react-google-recaptcha-v3`, you need to create a recaptcha key for your 
 
 `GoogleReCaptchaProvider`'s responsibility is to load the necessary reCaptcha script and provide access to reCaptcha to the rest of your application.
 
+You can customize the injected `script` tag with the `scriptProps` prop. This prop allows you to add `async`, `defer`, `nonce` attributes to the script tag. You can also control whether the injected script will be added to the document body or head with `appendTo` attribute. Example can be found belows. The `scriptProps` and its attributes are all optional.
+
 It also provides an optional prop `language` to support different languages that is supported by Google Recaptcha.
 https://developers.google.com/recaptcha/docs/language
 
@@ -49,6 +51,12 @@ ReactDom.render(
     reCaptchaKey="[Your recaptcha key]"
     language="[optional_language]"
     useRecaptchaNet="[optional_boolean_value]"
+    scriptProps={{
+      async: false, // optional, default to false,
+      defer: false // optional, default to false
+      appendTo: "head" // optional, default to "head", can be "head" or "body",
+      nonce: undefined // optional, default undefined
+    }}
   >
     <YourApp />
   </GoogleReCaptchaProvider>,
