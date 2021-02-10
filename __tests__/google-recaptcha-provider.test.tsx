@@ -103,10 +103,10 @@ describe('<GoogleReCaptchaProvider />', () => {
     expect(grecaptchaMock.ready).toBeCalled();
   });
 
-  describe('when usign enterprise version', () => {
+  describe('when using enterprise version', () => {
     it('accept an enterprise prop to load recaptcha from enterprise source', () => {
       const mountedComponent = Enzyme.mount(
-        <GoogleReCaptchaProvider reCaptchaKey="TESTKEY" enterprise>
+        <GoogleReCaptchaProvider reCaptchaKey="TESTKEY" useEnterprise>
           <div />
         </GoogleReCaptchaProvider>
       );
@@ -123,7 +123,7 @@ describe('<GoogleReCaptchaProvider />', () => {
       const mountedComponent = Enzyme.mount(
         <GoogleReCaptchaProvider
           reCaptchaKey="TESTKEY"
-          enterprise
+          useEnterprise
           useRecaptchaNet
         >
           <div />
@@ -140,7 +140,7 @@ describe('<GoogleReCaptchaProvider />', () => {
 
     it('handle load the enterprise script', () => {
       Enzyme.mount(
-        <GoogleReCaptchaProvider reCaptchaKey="TESTKEY" enterprise>
+        <GoogleReCaptchaProvider reCaptchaKey="TESTKEY" useEnterprise>
           <div />
         </GoogleReCaptchaProvider>
       );
