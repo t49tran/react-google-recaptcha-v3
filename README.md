@@ -59,7 +59,7 @@ ReactDom.render(
     reCaptchaKey="[Your recaptcha key]"
     language="[optional_language]"
     useRecaptchaNet="[optional_boolean_value]"
-    enterprise="[optional_boolean_value]"
+    useEnterprise="[optional_boolean_value]"
     scriptProps={{
       async: false, // optional, default to false,
       defer: false // optional, default to false
