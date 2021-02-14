@@ -8,6 +8,7 @@ interface IGoogleReCaptchaProviderProps {
   reCaptchaKey?: string;
   language?: string;
   useRecaptchaNet?: boolean;
+  useEnterprise?: boolean;
   scriptProps?: {
     nonce?: string;
     defer?: boolean;
@@ -44,10 +45,12 @@ export class GoogleReCaptchaProvider extends React.Component<IGoogleReCaptchaPro
   });
 
   get googleRecaptchaSrc() {
-    const { useRecaptchaNet } = this.props;
-    const hostName = useRecaptchaNet ? 'recaptcha.net' : 'google.com';
+    const { useRecaptchaNet, useEnterprise } = this.props;
+    const hostName =
+      useRecaptchaNet && !useEnterprise ? 'recaptcha.net' : 'google.com';
+    const script = useEnterprise ? 'enterprise.js' : 'api.js';
 
-    return `https://www.${hostName}/recaptcha/api.js`;
+    return `https://www.${hostName}/recaptcha/${script}`;
   }
 
   get googleReCaptchaContextValue() {
@@ -99,14 +102,19 @@ export class GoogleReCaptchaProvider extends React.Component<IGoogleReCaptchaPro
   };
 
   handleOnLoad = () => {
+    const { useEnterprise } = this.props;
+
     if (!window || !(window as any).grecaptcha) {
       console.warn(GoogleRecaptchaError.SCRIPT_NOT_AVAILABLE);
-
       return;
     }
 
-    (window as any).grecaptcha.ready(() => {
-      this.resolver((window as any).grecaptcha);
+    const grecaptcha = useEnterprise
+      ? (window as any).grecaptcha.enterprise
+      : (window as any).grecaptcha;
+
+    grecaptcha.ready(() => {
+      this.resolver(grecaptcha);
     });
   };
 

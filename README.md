@@ -27,6 +27,14 @@ npm install react-google-recaptcha-v3
 
 To use `react-google-recaptcha-v3`, you need to create a recaptcha key for your domain, you can get one from [here](https://www.google.com/recaptcha/intro/v3.html).
 
+#### Enterprise
+
+When you enable to use the enterprise version, **you must create new keys**. These keys will replace any Site Keys you created in reCAPTCHA. Check the [migration guide](https://cloud.google.com/recaptcha-enterprise/docs/migrate-recaptcha).
+
+To work properly, you **must** select the Integration type to be `Scoring` since is equivalent to the reCAPTCHA v3.
+
+The complete documentation to the enterprise version you can see [here](https://cloud.google.com/recaptcha-enterprise/docs/quickstart).
+
 #### Components
 
 ##### GoogleReCaptchaProvider
@@ -51,6 +59,7 @@ ReactDom.render(
     reCaptchaKey="[Your recaptcha key]"
     language="[optional_language]"
     useRecaptchaNet="[optional_boolean_value]"
+    useEnterprise="[optional_boolean_value]"
     scriptProps={{
       async: false, // optional, default to false,
       defer: false // optional, default to false
