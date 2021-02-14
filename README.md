@@ -15,12 +15,6 @@
 npm install react-google-recaptcha-v3
 ```
 
-## Sponsors
-
-<a href="https://wavedigital.com.au/" rel="noopener sponsored" target="_blank" style="margin-right: 16px;" title="Wave Digital">
-<img width="75" src="https://dyp3dma8oum24.cloudfront.net/wp-content/themes/wavedigital/dist/assets/images/logo/wave-logo.png" alt="Wave Digital" loading="lazy" />
-</a>
-
 ## Usage
 
 #### Provide Recaptcha Key
@@ -147,7 +141,7 @@ ReactDom.render(
 );
 ```
 
-#### React Hook: useGoogleReCaptcha
+#### React Hook: useGoogleReCaptcha (recommended approach)
 
 If you prefer a React Hook approach over the old good Higher Order Component, you can choose to use the custom hook `useGoogleReCaptcha` over the HOC `withGoogleReCaptcha`.
 
