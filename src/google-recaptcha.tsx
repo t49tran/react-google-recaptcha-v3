@@ -12,10 +12,9 @@ export const GoogleReCaptcha: FC<IGoogleRecaptchaProps> = ({
   onVerify,
   runOnlyOnMount
 }) => {
-  const googleRecaptchaContextValue = useGoogleReCaptcha();
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   useEffect(() => {
-    const { executeRecaptcha } = googleRecaptchaContextValue;
     const handleExecuteRecaptcha = async () => {
       if (!executeRecaptcha) {
         console.warn('Execute recaptcha function not defined');
@@ -34,7 +33,7 @@ export const GoogleReCaptcha: FC<IGoogleRecaptchaProps> = ({
     };
 
     handleExecuteRecaptcha();
-  }, [action, onVerify, googleRecaptchaContextValue]);
+  }, [action, onVerify, executeRecaptcha]);
 
   return null;
 };
