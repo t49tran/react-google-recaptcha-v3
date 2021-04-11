@@ -18,10 +18,11 @@ export const GoogleRecaptchaExample: FC = () => {
 
     setToken(result);
     setNoOfVerifications(noOfVerifications => noOfVerifications + 1);
-  }, [dynamicAction]);
+  }, [dynamicAction, executeRecaptcha]);
 
   const handleReCaptchaVerify = useCallback(
     token => {
+      console.log('Token', token);
       setToken(token);
       setNoOfVerifications(noOfVerifications => noOfVerifications + 1);
     },
