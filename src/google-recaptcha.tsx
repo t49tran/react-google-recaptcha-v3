@@ -4,13 +4,11 @@ import { useGoogleReCaptcha } from './use-google-recaptcha';
 export interface IGoogleRecaptchaProps {
   onVerify: (token: string) => void | Promise<void>;
   action?: string;
-  runOnlyOnMount?: boolean;
 }
 
 export const GoogleReCaptcha: FC<IGoogleRecaptchaProps> = ({
   action,
-  onVerify,
-  runOnlyOnMount
+  onVerify
 }) => {
   const googleRecaptchaContextValue = useGoogleReCaptcha();
 

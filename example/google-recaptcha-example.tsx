@@ -18,7 +18,7 @@ export const GoogleRecaptchaExample: FC = () => {
 
     setToken(result);
     setNoOfVerifications(noOfVerifications => noOfVerifications + 1);
-  }, [dynamicAction]);
+  }, [dynamicAction, executeRecaptcha]);
 
   const handleReCaptchaVerify = useCallback(
     token => {

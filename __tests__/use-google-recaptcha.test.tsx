@@ -1,33 +1,20 @@
-import Enzyme from 'enzyme';
 import * as React from 'react';
 import { GoogleReCaptchaProvider } from 'src/google-recaptcha-provider';
 import { useGoogleReCaptcha } from 'src/use-google-recaptcha';
-import { IWithGoogleReCaptchaProps } from 'src/with-google-recaptcha';
+import { renderHook } from '@testing-library/react-hooks';
 
-const TestComponent: React.FunctionComponent<
-  IWithGoogleReCaptchaProps
-> = () => {
-  return <div />;
-};
-
-const TestProvider = () => {
-  const googleReCaptchaProps = useGoogleReCaptcha();
-  return <TestComponent googleReCaptchaProps={googleReCaptchaProps} />;
-};
+const TestWrapper: React.FC = ({ children }) => (
+  <GoogleReCaptchaProvider reCaptchaKey="TESTKEY">
+    {children}
+  </GoogleReCaptchaProvider>
+);
 
 describe('useGoogleReCaptcha hook', () => {
   it('return google recaptcha context value', () => {
-    const mountedComponent = Enzyme.mount(
-      <GoogleReCaptchaProvider reCaptchaKey="TESTKEY">
-        <TestProvider />
-      </GoogleReCaptchaProvider>
-    );
+    const { result } = renderHook(() => useGoogleReCaptcha(), {
+      wrapper: TestWrapper
+    });
 
-    const wrappedComponent = mountedComponent.find(TestComponent);
-
-    const googleReCaptchaProps = (wrappedComponent.props() as IWithGoogleReCaptchaProps)
-      .googleReCaptchaProps;
-
-    expect(googleReCaptchaProps).toHaveProperty('executeRecaptcha');
+    expect(result.current).toHaveProperty('executeRecaptcha');
   });
 });

@@ -1,32 +1,53 @@
-import Enzyme from 'enzyme';
+import { render } from '@testing-library/react';
 import * as React from 'react';
-import { GoogleReCaptchaProvider } from 'src/google-recaptcha-provider';
+import {
+  GoogleReCaptchaProvider,
+  IGoogleReCaptchaConsumerProps
+} from 'src/google-recaptcha-provider';
 import {
   IWithGoogleReCaptchaProps,
   withGoogleReCaptcha
 } from 'src/with-google-recaptcha';
 
-const TestComponent = () => <div />;
+const TestComponent = ({
+  googleReCaptchaProps,
+  onLoad
+}: Partial<IWithGoogleReCaptchaProps> & {
+  onLoad: (props: IGoogleReCaptchaConsumerProps) => void;
+}) => {
+  React.useEffect(() => {
+    if (!googleReCaptchaProps) {
+      return;
+    }
+
+    console.log(googleReCaptchaProps);
+
+    onLoad(googleReCaptchaProps);
+  }, [googleReCaptchaProps]);
+
+  return <div />;
+};
 
 const WrappedTestComponent = withGoogleReCaptcha(TestComponent);
 
-const TestProvider = () => (
+const TestProvider = ({
+  onLoad
+}: {
+  onLoad: (props: IGoogleReCaptchaConsumerProps) => void;
+}) => (
   <GoogleReCaptchaProvider reCaptchaKey="TESTKEY">
-    <WrappedTestComponent />
+    <WrappedTestComponent onLoad={onLoad} />
   </GoogleReCaptchaProvider>
 );
 
 describe('withGoogleRecaptcha HOC', () => {
   it('inject the wrapped component with googleReCaptcha prop', () => {
-    const mountedComponent = Enzyme.mount(<TestProvider />);
+    const testFn = jest.fn();
 
-    const wrappedComponent = mountedComponent.find(TestComponent);
+    render(<TestProvider onLoad={testFn} />);
 
-    expect(wrappedComponent.props()).toHaveProperty('googleReCaptchaProps');
-
-    const googleReCaptchaProps = (wrappedComponent.props() as IWithGoogleReCaptchaProps)
-      .googleReCaptchaProps;
-
-    expect(googleReCaptchaProps).toHaveProperty('executeRecaptcha');
+    expect(testFn).toBeCalledWith(
+      expect.objectContaining({ executeRecaptcha: undefined })
+    );
   });
 });
