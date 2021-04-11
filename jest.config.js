@@ -15,6 +15,5 @@ module.exports = {
   },
   moduleNameMapper: {
     '^src/(.*)$': '<rootDir>/src/$1'
-  },
-  setupFilesAfterEnv: ['./__tests__/jest.init.ts']
+  }
 };
