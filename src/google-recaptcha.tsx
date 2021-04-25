@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useGoogleReCaptcha } from './use-google-recaptcha';
 
 export interface IGoogleRecaptchaProps {
@@ -6,10 +6,7 @@ export interface IGoogleRecaptchaProps {
   action?: string;
 }
 
-export const GoogleReCaptcha: FC<IGoogleRecaptchaProps> = ({
-  action,
-  onVerify
-}) => {
+export function GoogleReCaptcha({ action, onVerify }: IGoogleRecaptchaProps) {
   const googleRecaptchaContextValue = useGoogleReCaptcha();
 
   useEffect(() => {
@@ -35,4 +32,4 @@ export const GoogleReCaptcha: FC<IGoogleRecaptchaProps> = ({
   }, [action, onVerify, googleRecaptchaContextValue]);
 
   return null;
-};
+}

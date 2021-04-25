@@ -1,5 +1,5 @@
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import * as React from 'react';
+import { ComponentType } from 'react';
 import {
   GoogleReCaptchaConsumer,
   IGoogleReCaptchaConsumerProps
@@ -10,12 +10,12 @@ export interface IWithGoogleReCaptchaProps {
 }
 
 // tslint:disable-next-line:only-arrow-functions
-export const withGoogleReCaptcha = function<OwnProps>(
-  Component: React.ComponentType<OwnProps & Partial<IWithGoogleReCaptchaProps>>
-): React.ComponentType<OwnProps & Partial<IWithGoogleReCaptchaProps>> {
-  const WithGoogleReCaptchaComponent: React.FunctionComponent<
-    OwnProps & Partial<IWithGoogleReCaptchaProps>
-  > = props => (
+export const withGoogleReCaptcha = function <OwnProps>(
+  Component: ComponentType<OwnProps & Partial<IWithGoogleReCaptchaProps>>
+): ComponentType<OwnProps & Partial<IWithGoogleReCaptchaProps>> {
+  const WithGoogleReCaptchaComponent = (
+    props: OwnProps & Partial<IWithGoogleReCaptchaProps>
+  ) => (
     <GoogleReCaptchaConsumer>
       {googleReCaptchaValues => (
         <Component {...props} googleReCaptchaProps={googleReCaptchaValues} />
@@ -23,9 +23,9 @@ export const withGoogleReCaptcha = function<OwnProps>(
     </GoogleReCaptchaConsumer>
   );
 
-  WithGoogleReCaptchaComponent.displayName = `withGoogleReCaptcha(${Component.displayName ||
-    Component.name ||
-    'Component'})`;
+  WithGoogleReCaptchaComponent.displayName = `withGoogleReCaptcha(${
+    Component.displayName || Component.name || 'Component'
+  })`;
 
   hoistNonReactStatics(WithGoogleReCaptchaComponent, Component);
 

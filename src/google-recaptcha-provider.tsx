@@ -1,5 +1,11 @@
-import * as React from 'react';
-import { FC, useMemo, useState, useEffect, useCallback } from 'react';
+import {
+  useMemo,
+  useState,
+  useEffect,
+  useCallback,
+  createContext,
+  ReactNode
+} from 'react';
 import { cleanGoogleRecaptcha, injectGoogleReCaptchaScript } from './utils';
 
 enum GoogleRecaptchaError {
@@ -18,31 +24,32 @@ interface IGoogleReCaptchaProviderProps {
     appendTo?: 'head' | 'body';
     id?: string;
   };
+  children: ReactNode;
 }
 
 export interface IGoogleReCaptchaConsumerProps {
   executeRecaptcha?: (action?: string) => Promise<string>;
 }
 
-const GoogleReCaptchaContext = React.createContext<IGoogleReCaptchaConsumerProps>(
-  {
-    executeRecaptcha: () => {
-      // This default context function is not supposed to be called
-      throw Error('GoogleReCaptcha Context has not yet been implemented');
-    }
+const GoogleReCaptchaContext = createContext<IGoogleReCaptchaConsumerProps>({
+  executeRecaptcha: () => {
+    // This default context function is not supposed to be called
+    throw Error(
+      'GoogleReCaptcha Context has not yet been implemented, if you are using useGoogleReCaptcha hook, make sure the hook is called inside component wrapped by GoogleRecaptchaProvider'
+    );
   }
-);
+});
 
 const { Consumer: GoogleReCaptchaConsumer } = GoogleReCaptchaContext;
 
-export const GoogleReCaptchaProvider: FC<IGoogleReCaptchaProviderProps> = ({
+export function GoogleReCaptchaProvider({
   reCaptchaKey,
   useEnterprise = false,
   useRecaptchaNet = false,
   scriptProps,
   language,
   children
-}) => {
+}: IGoogleReCaptchaProviderProps) {
   const [greCaptchaInstance, setGreCaptchaInstance] = useState<null | {
     execute: Function;
   }>(null);
@@ -115,6 +122,6 @@ export const GoogleReCaptchaProvider: FC<IGoogleReCaptchaProviderProps> = ({
       {children}
     </GoogleReCaptchaContext.Provider>
   );
-};
+}
 
 export { GoogleReCaptchaConsumer, GoogleReCaptchaContext };
