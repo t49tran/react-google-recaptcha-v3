@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { GoogleReCaptchaProvider } from 'src/google-recaptcha-provider';
 import { render, waitFor } from '@testing-library/react';
 
