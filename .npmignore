@@ -6,3 +6,7 @@ __tests__
 jest.config.js
 .prettierrc
 build
+src
+.nvmrc
+rollup.config.js
+tsconfig.json
