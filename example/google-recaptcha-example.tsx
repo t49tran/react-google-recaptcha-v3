@@ -1,4 +1,4 @@
-import { useState, FC, useCallback } from 'react';
+import React, { useState, FC, useCallback } from 'react';
 import { useGoogleReCaptcha } from '../src/use-google-recaptcha';
 import { GoogleReCaptcha } from '../src/google-recaptcha';
 
