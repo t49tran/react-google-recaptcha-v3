@@ -150,21 +150,35 @@ import {
   withGoogleReCaptcha
 } from 'react-google-recaptcha-v3';
 
-class ReCaptchaComponent extends React.Component {
-  async componentDidMount() {
-    const token = await this.props.googleReCaptchaProps.executeRecaptcha('homepage');
-  }
+class ReCaptchaComponent extends Component<{}> {
+  handleVerifyRecaptcha = async () => {
+    const { executeRecaptcha } = (this.props as IWithGoogleReCaptchaProps)
+      .googleReCaptchaProps;
+
+    if (!executeRecaptcha) {
+      console.log('Recaptcha has not been loaded');
+
+      return;
+    }
+
+    const token = await executeRecaptcha('homepage');
+  };
 
   render() {
-    ...
+    return (
+      <div>
+        <button onClick={this.handleVerifyRecaptcha}>Verify Recaptcha</button>
+      </div>
+    );
   }
 }
 
-const YourReCaptchaComponent = withGoogleReCaptcha(ReCaptchaComponent);
+export const WithGoogleRecaptchaExample =
+  withGoogleReCaptcha(ReCaptchaComponent);
 
 ReactDom.render(
   <GoogleReCaptchaProvider reCaptchaKey="[Your recaptcha key]">
-    <YourReCaptchaComponent />
+    <WithGoogleRecaptchaExample />
   </GoogleReCaptchaProvider>,
   document.getElementById('app')
 );
