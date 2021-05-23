@@ -113,7 +113,10 @@ const MyComponent: FC = () => {
 
 If you prefer a React Hook approach over the old good Higher Order Component, you can choose to use the custom hook `useGoogleReCaptcha` over the HOC `withGoogleReCaptcha`.
 
-It's very simple to use the hook:
+The `executeRecaptcha` function returned from the hook can be undefined when the recaptcha script has not been successfully loaded.
+You can do a null check to see if it's available or not.
+
+How to use the hook:
 
 ```javascript
 import {
@@ -121,12 +124,26 @@ import {
   useGoogleReCaptcha
 } from 'react-google-recaptcha-v3';
 
-const YourReCaptchaComponent  = () => {
+const YourReCaptchaComponent = () => {
   const { executeRecaptcha } = useGoogleReCaptcha();
-  const token = executeRecaptcha("login_page");
 
-  return (...)
-}
+  // Create an event handler so you can call the verification on button click event or form submit
+  const handleReCaptchaVerify = useCallback(async () => {
+    if (!executeRecaptcha) {
+      console.log('Execute recaptcha not yet available');
+    }
+
+    const token = await executeRecaptcha('yourAction');
+    // Do whatever you want with the token
+  }, []);
+
+  // You can use useEffect to trigger the verification as soon as the component being loaded
+  useEffect(() => {
+    handleReCaptchaVerify();
+  }, [handleReCaptchaVerify]);
+
+  return <button onClick={handleRecaptchaVerify}>Verify recaptcha</button>;
+};
 
 ReactDom.render(
   <GoogleReCaptchaProvider reCaptchaKey="[Your recaptcha key]">
