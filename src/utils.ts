@@ -13,9 +13,12 @@ interface InjectGoogleReCaptchaScriptParams {
   };
 }
 
-export const isScriptInjected = (scriptId: string) =>
-  !!document.querySelector(`#${scriptId}`);
-
+/**
+ * Function to generate the src for the script tag
+ *
+ * @param param0
+ * @returns
+ */
 const generateGoogleRecaptchaSrc = ({
   useRecaptchaNet,
   useEnterprise
@@ -30,6 +33,33 @@ const generateGoogleRecaptchaSrc = ({
   return `https://www.${hostName}/recaptcha/${script}`;
 };
 
+/**
+ * Function to clean the recaptcha_[language] script injected by the recaptcha.js
+ */
+const cleanGstaticRecaptchaScript = () => {
+  const script = document.querySelector(
+    `script[src^='https://www.gstatic.com/recaptcha/releases']`
+  );
+
+  if (script) {
+    script.remove();
+  }
+};
+
+/**
+ * Function to check if script has already been injected
+ *
+ * @param scriptId
+ * @returns
+ */
+export const isScriptInjected = (scriptId: string) =>
+  !!document.querySelector(`#${scriptId}`);
+
+/**
+ * Function to clean google recaptcha script
+ *
+ * @param scriptId
+ */
 export const cleanGoogleRecaptcha = (scriptId: string) => {
   // remove badge
   const nodeBadge = document.querySelector('.grecaptcha-badge');
@@ -42,8 +72,16 @@ export const cleanGoogleRecaptcha = (scriptId: string) => {
   if (script) {
     script.remove();
   }
+
+  cleanGstaticRecaptchaScript();
 };
 
+/**
+ * Function to inject the google recaptcha script
+ *
+ * @param param0
+ * @returns
+ */
 export const injectGoogleReCaptchaScript = ({
   reCaptchaKey,
   language,

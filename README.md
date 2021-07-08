@@ -37,13 +37,17 @@ The complete documentation to the enterprise version you can see [here](https://
 
 `GoogleReCaptchaProvider`'s responsibility is to load the necessary reCaptcha script and provide access to reCaptcha to the rest of your application.
 
-You can customize the injected `script` tag with the `scriptProps` prop. This prop allows you to add `async`, `defer`, `nonce` attributes to the script tag. You can also control whether the injected script will be added to the document body or head with `appendTo` attribute. Example can be found belows. The `scriptProps` and its attributes are all optional.
+Usually, your application only needs one provider. You should place it as high as possible in your React tree. It's to make sure you only have one instance of Google Recaptcha per page and it doesn't reload unecessarily when your components re-rendered.
 
-It also provides an optional prop `language` to support different languages that is supported by Google Recaptcha.
-https://developers.google.com/recaptcha/docs/language
+Same thing applied when you use this library with framework such as Next.js or React Router and only want to include the script on a single page. Try to make sure you only have one instance of the provider on a React tree and to place it as high (on the tree) as possible.
 
-The provider also provide the prop `useRecaptchaNet` to load script from `recaptcha.net`:
-https://developers.google.com/recaptcha/docs/faq#can-i-use-recaptcha-globally
+| **Props**       | **Type** | **Default** | **Required?** | **Note**                                                                                                                                                                                                                                                        |
+| --------------- | :------: | ----------: | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| reCaptchaKey    | Boolean  |             | Yes           | Your recaptcha key, get one from [here](https://www.google.com/recaptcha/intro/v3.html)                                                                                                                                                                         |
+| scriptProps     |  Object  |             | No            | You can customize the injected `script` tag with this prop. It allows you to add `async`, `defer`, `nonce` attributes to the script tag. You can also control whether the injected script will be added to the document body or head with `appendTo` attribute. |
+| language        |  String  |             | No            | optional prop to support different languages that is supported by Google Recaptcha. https://developers.google.com/recaptcha/docs/language                                                                                                                       |
+| useRecaptchaNet | Boolean  |       false | No            | The provider also provide the prop `useRecaptchaNet` to load script from `recaptcha.net`: https://developers.google.com/recaptcha/docs/faq#can-i-use-recaptcha-globally                                                                                         |
+| useEnterprise   | Boolean  |       false | No            | [Enterprise option](#enterprise)                                                                                                                                                                                                                                |
 
 ```javascript
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
@@ -57,7 +61,7 @@ ReactDom.render(
     scriptProps={{
       async: false, // optional, default to false,
       defer: false, // optional, default to false
-      appendTo: "head", // optional, default to "head", can be "head" or "body",
+      appendTo: 'head', // optional, default to "head", can be "head" or "body",
       nonce: undefined // optional, default undefined
     }}
   >

@@ -1,6 +1,5 @@
-import React, { useState, FC, useCallback } from 'react';
+import React, { useState, FC, useCallback, useEffect } from 'react';
 import { useGoogleReCaptcha } from '../src/use-google-recaptcha';
-import { GoogleReCaptcha } from '../src/google-recaptcha';
 
 export const GoogleRecaptchaExample: FC = () => {
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -20,14 +19,6 @@ export const GoogleRecaptchaExample: FC = () => {
     setNoOfVerifications(noOfVerifications => noOfVerifications + 1);
   }, [dynamicAction, executeRecaptcha]);
 
-  const handleReCaptchaVerify = useCallback(
-    token => {
-      setToken(token);
-      setNoOfVerifications(noOfVerifications => noOfVerifications + 1);
-    },
-    [setNoOfVerifications, setToken]
-  );
-
   const handleTextChange = useCallback(event => {
     setActionToChange(event.target.value);
   }, []);
@@ -35,6 +26,20 @@ export const GoogleRecaptchaExample: FC = () => {
   const handleCommitAction = useCallback(() => {
     setDynamicAction(actionToChange);
   }, [actionToChange]);
+
+  useEffect(() => {
+    if (!executeRecaptcha || !dynamicAction) {
+      return;
+    }
+
+    const handleReCaptchaVerify = async () => {
+      const token = await executeRecaptcha(dynamicAction);
+      setToken(token);
+      setNoOfVerifications(noOfVerifications => noOfVerifications + 1);
+    };
+
+    handleReCaptchaVerify();
+  }, [executeRecaptcha, dynamicAction]);
 
   return (
     <div>
@@ -48,10 +53,6 @@ export const GoogleRecaptchaExample: FC = () => {
       <br />
       {token && <p>Token: {token}</p>}
       <p> No of verifications: {noOfVerifications}</p>
-      <GoogleReCaptcha
-        action={dynamicAction}
-        onVerify={handleReCaptchaVerify}
-      />
     </div>
   );
 };
