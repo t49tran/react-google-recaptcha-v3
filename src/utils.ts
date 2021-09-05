@@ -3,6 +3,7 @@ interface InjectGoogleReCaptchaScriptParams {
   useRecaptchaNet: boolean;
   useEnterprise: boolean;
   onLoad: () => void;
+  onError: () => void;
   language?: string;
   scriptProps?: {
     nonce?: string;
@@ -135,4 +136,21 @@ export const injectGoogleReCaptchaScript = ({
       : document.getElementsByTagName('head')[0];
 
   elementToInjectScript.appendChild(js);
+};
+
+/**
+ * Function to log warning message if it's not in production mode
+ *
+ * @param message String
+ * @returns
+ */
+export const logWarningMessage = (message: string) => {
+  const isDevelopmentMode =
+    !!process.env && process.env.NODE_ENV !== 'production';
+
+  if (isDevelopmentMode) {
+    return;
+  }
+
+  console.warn(message);
 };

@@ -7,7 +7,11 @@ import {
   createContext,
   ReactNode
 } from 'react';
-import { cleanGoogleRecaptcha, injectGoogleReCaptchaScript } from './utils';
+import {
+  cleanGoogleRecaptcha,
+  injectGoogleReCaptchaScript,
+  logWarningMessage
+} from './utils';
 
 enum GoogleRecaptchaError {
   SCRIPT_NOT_AVAILABLE = 'Recaptcha script is not available'
@@ -57,7 +61,9 @@ export function GoogleReCaptchaProvider({
 
   useEffect(() => {
     if (!reCaptchaKey) {
-      console.warn('<GoogleReCaptchaProvider /> recaptcha key not provided');
+      logWarningMessage(
+        '<GoogleReCaptchaProvider /> recaptcha key not provided'
+      );
 
       return;
     }
@@ -66,7 +72,7 @@ export function GoogleReCaptchaProvider({
 
     const onLoad = () => {
       if (!window || !(window as any).grecaptcha) {
-        console.warn(
+        logWarningMessage(
           `<GoogleRecaptchaProvider /> ${GoogleRecaptchaError.SCRIPT_NOT_AVAILABLE}`
         );
 
@@ -82,13 +88,18 @@ export function GoogleReCaptchaProvider({
       });
     };
 
+    const onError = () => {
+      logWarningMessage('Error loading google recaptcha script');
+    };
+
     injectGoogleReCaptchaScript({
       reCaptchaKey,
       useEnterprise,
       useRecaptchaNet,
       scriptProps,
       language,
-      onLoad
+      onLoad,
+      onError
     });
 
     return () => {
