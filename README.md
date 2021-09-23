@@ -147,7 +147,7 @@ const YourReCaptchaComponent = () => {
     handleReCaptchaVerify();
   }, [handleReCaptchaVerify]);
 
-  return <button onClick={handleRecaptchaVerify}>Verify recaptcha</button>;
+  return <button onClick={handleReCaptchaVerify}>Verify recaptcha</button>;
 };
 
 ReactDom.render(
