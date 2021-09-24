@@ -26,8 +26,7 @@ const generateGoogleRecaptchaSrc = ({
   useRecaptchaNet: boolean;
   useEnterprise: boolean;
 }) => {
-  const hostName =
-    useRecaptchaNet && !useEnterprise ? 'recaptcha.net' : 'google.com';
+  const hostName = useRecaptchaNet ? 'recaptcha.net' : 'google.com';
   const script = useEnterprise ? 'enterprise.js' : 'api.js';
 
   return `https://www.${hostName}/recaptcha/${script}`;

@@ -94,7 +94,7 @@ describe('<GoogleReCaptchaProvider />', () => {
       );
     });
 
-    it('should not load recaptcha from recaptcha.net', () => {
+    it('should load recaptcha from recaptcha.net', () => {
       render(
         <GoogleReCaptchaProvider
           reCaptchaKey="TESTKEY"
@@ -108,7 +108,7 @@ describe('<GoogleReCaptchaProvider />', () => {
       const scriptElm = document.getElementById('google-recaptcha-v3');
 
       expect(scriptElm!.getAttribute('src')).toEqual(
-        'https://www.google.com/recaptcha/enterprise.js?render=TESTKEY'
+        'https://www.recaptcha.net/recaptcha/enterprise.js?render=TESTKEY'
       );
     });
   });
