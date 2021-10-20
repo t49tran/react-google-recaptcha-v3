@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useGoogleReCaptcha } from './use-google-recaptcha';
+import { logWarningMessage } from './utils';
 
 export interface IGoogleRecaptchaProps {
   onVerify: (token: string) => void | Promise<void>;
@@ -11,16 +12,16 @@ export function GoogleReCaptcha({ action, onVerify }: IGoogleRecaptchaProps) {
 
   useEffect(() => {
     const { executeRecaptcha } = googleRecaptchaContextValue;
-    const handleExecuteRecaptcha = async () => {
-      if (!executeRecaptcha) {
-        console.warn('Execute recaptcha function not defined');
-        return;
-      }
 
+    if (!executeRecaptcha) {
+      return;
+    }
+
+    const handleExecuteRecaptcha = async () => {
       const token = await executeRecaptcha(action);
 
       if (!onVerify) {
-        console.warn('Please define an onVerify function');
+        logWarningMessage('Please define an onVerify function');
 
         return;
       }
