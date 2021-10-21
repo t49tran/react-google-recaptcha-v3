@@ -105,7 +105,7 @@ export function GoogleReCaptchaProvider({
     return () => {
       cleanGoogleRecaptcha(scriptId);
     };
-  }, [useEnterprise, useRecaptchaNet, scriptProps, language]);
+  }, [useEnterprise, useRecaptchaNet, scriptProps, language, reCaptchaKey]);
 
   const executeRecaptcha = useCallback(
     async (action?: string) => {
