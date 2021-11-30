@@ -79,6 +79,44 @@ describe('<GoogleReCaptchaProvider />', () => {
     expect(scriptElm!.getAttribute('defer')).toEqual('');
   });
 
+  it('does not reload script if scriptProps object stays the same', async () => {
+    const { rerender } = render(
+      <GoogleReCaptchaProvider reCaptchaKey="TESTKEY" scriptProps={{ nonce: 'NONCE' }}>
+        <div />
+      </GoogleReCaptchaProvider>
+    );
+
+    const scriptElm = document.querySelector('#google-recaptcha-v3');
+    expect(scriptElm).not.toBeNull();
+
+    rerender(
+      <GoogleReCaptchaProvider reCaptchaKey="TESTKEY" scriptProps={{ nonce: 'NONCE' }}>
+        <div />
+      </GoogleReCaptchaProvider>
+    );
+
+    expect(scriptElm).toBe(document.querySelector('#google-recaptcha-v3'));
+  });
+
+  it('reloads script on scriptProps changes', async () => {
+    const { rerender } = render(
+      <GoogleReCaptchaProvider reCaptchaKey="TESTKEY" scriptProps={{ async: false }}>
+        <div />
+      </GoogleReCaptchaProvider>
+    );
+
+    const scriptElm = document.querySelector('#google-recaptcha-v3');
+    expect(scriptElm).not.toBeNull();
+
+    rerender(
+      <GoogleReCaptchaProvider reCaptchaKey="TESTKEY" scriptProps={{ async: true }}>
+        <div />
+      </GoogleReCaptchaProvider>
+    );
+
+    expect(scriptElm).not.toBe(document.querySelector('#google-recaptcha-v3'));
+  });
+
   describe('when using enterprise version', () => {
     it('accept an enterprise prop to load recaptcha from enterprise source', () => {
       render(
