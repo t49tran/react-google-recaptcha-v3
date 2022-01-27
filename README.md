@@ -140,7 +140,7 @@ const YourReCaptchaComponent = () => {
 
     const token = await executeRecaptcha('yourAction');
     // Do whatever you want with the token
-  }, []);
+  }, [executeRecaptcha]);
 
   // You can use useEffect to trigger the verification as soon as the component being loaded
   useEffect(() => {
