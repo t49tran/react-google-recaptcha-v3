@@ -1,7 +1,7 @@
 {
-  "name": "react-google-recaptcha-v3",
-  "version": "1.9.6",
-  "description": "React component for google-recaptcha v3",
+  "name": "@ramirezcgn/react-google-recaptcha-v3",
+  "version": "1.9.0",
+  "description": "Fork of React component for google-recaptcha v3",
   "module": "dist/react-google-recaptcha-v3.esm.js",
   "main": "dist/react-google-recaptcha-v3.cjs.js",
   "types": "dist/types/index.d.ts",
@@ -13,11 +13,14 @@
     "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
   "author": "Duong Tran",
-  "homepage": "https://github.com/t49tran/react-google-recaptcha-v3",
+  "contributors": [
+    "Nicolas Ramirez <ramirezcgn@gmail.com> (https://github.com/ramirezcgn"
+  ],
+  "homepage": "https://github.com/ramirezcgn/react-google-recaptcha-v3",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/t49tran/react-google-recaptcha-v3"
+    "url": "git://github.com/ramirezcgn/react-google-recaptcha-v3"
   },
   "peerDependencies": {
     "react": "^17.0",
