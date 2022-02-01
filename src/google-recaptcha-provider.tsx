@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  useRef,
   useMemo,
   useState,
   useEffect,
@@ -18,7 +19,7 @@ enum GoogleRecaptchaError {
 }
 
 interface IGoogleReCaptchaProviderProps {
-  reCaptchaKey?: string;
+  reCaptchaKey: string;
   language?: string;
   useRecaptchaNet?: boolean;
   useEnterprise?: boolean;
@@ -28,6 +29,18 @@ interface IGoogleReCaptchaProviderProps {
     async?: boolean;
     appendTo?: 'head' | 'body';
     id?: string;
+    onLoadCallbackName?: string;
+  };
+  inlineBadgeId?: string | HTMLElement;
+  parameters?: {
+    sitekey?: string;
+    badge?: string;
+    theme?: string;
+    size?: string;
+    tabindex?: number;
+    callback?: () => void;
+    expiredCallback?: () => void;
+    errorCallback?: () => void;
   };
   children: ReactNode;
 }
@@ -53,11 +66,14 @@ export function GoogleReCaptchaProvider({
   useRecaptchaNet = false,
   scriptProps,
   language,
+  inlineBadgeId,
+  parameters = {},
   children
 }: IGoogleReCaptchaProviderProps) {
   const [greCaptchaInstance, setGreCaptchaInstance] = useState<null | {
     execute: Function;
   }>(null);
+  const clientId = useRef<number | string>(reCaptchaKey);
 
   useEffect(() => {
     if (!reCaptchaKey) {
@@ -69,6 +85,22 @@ export function GoogleReCaptchaProvider({
     }
 
     const scriptId = scriptProps?.id || 'google-recaptcha-v3';
+    const onLoadCallbackName = scriptProps?.onLoadCallbackName || 'onRecaptchaLoadCallback';
+
+    ((window as unknown) as {[key: string]: () => void})[onLoadCallbackName] = () => {
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+      const grecaptcha = useEnterprise
+        ? (window as any).grecaptcha.enterprise
+        : (window as any).grecaptcha;
+
+      const params = {
+        badge: 'inline',
+        size: 'invisible',
+        sitekey: reCaptchaKey,
+        ...(parameters || {})
+      };
+      clientId.current = grecaptcha.render(inlineBadgeId, params);
+    };
 
     const onLoad = () => {
       if (!window || !(window as any).grecaptcha) {
@@ -93,7 +125,8 @@ export function GoogleReCaptchaProvider({
     };
 
     injectGoogleReCaptchaScript({
-      reCaptchaKey,
+      render: inlineBadgeId ? 'explicit' : reCaptchaKey,
+      onLoadCallbackName,
       useEnterprise,
       useRecaptchaNet,
       scriptProps,
@@ -115,18 +148,17 @@ export function GoogleReCaptchaProvider({
         );
       }
 
-      const result = await greCaptchaInstance.execute(reCaptchaKey, { action });
-
-      return result;
+      return await greCaptchaInstance.execute(clientId.current, { action });
     },
-    [greCaptchaInstance]
+    [greCaptchaInstance, clientId]
   );
 
   const googleReCaptchaContextValue = useMemo(
     () => ({
-      executeRecaptcha: greCaptchaInstance ? executeRecaptcha : undefined
+      executeRecaptcha: greCaptchaInstance ? executeRecaptcha : undefined,
+      inlineBadgeId,
     }),
-    [executeRecaptcha, greCaptchaInstance]
+    [executeRecaptcha, greCaptchaInstance, inlineBadgeId]
   );
 
   return (

@@ -1,5 +1,6 @@
-interface InjectGoogleReCaptchaScriptParams {
-  reCaptchaKey: string;
+interface IInjectGoogleReCaptchaScriptParams {
+  render: string;
+  onLoadCallbackName: string;
   useRecaptchaNet: boolean;
   useEnterprise: boolean;
   onLoad: () => void;
@@ -38,7 +39,7 @@ const generateGoogleRecaptchaSrc = ({
  */
 const cleanGstaticRecaptchaScript = () => {
   const script = document.querySelector(
-    `script[src^='https://www.gstatic.com/recaptcha/releases']`
+    'script[src^="https://www.gstatic.com/recaptcha/releases"]'
   );
 
   if (script) {
@@ -83,7 +84,8 @@ export const cleanGoogleRecaptcha = (scriptId: string) => {
  * @returns
  */
 export const injectGoogleReCaptchaScript = ({
-  reCaptchaKey,
+  render,
+  onLoadCallbackName,
   language,
   onLoad,
   useRecaptchaNet,
@@ -93,9 +95,9 @@ export const injectGoogleReCaptchaScript = ({
     defer = false,
     async = false,
     id = '',
-    appendTo = undefined
+    appendTo
   } = {}
-}: InjectGoogleReCaptchaScriptParams) => {
+}: IInjectGoogleReCaptchaScriptParams) => {
   const scriptId = id || 'google-recaptcha-v3';
 
   // Script has already been injected, just call onLoad and does othing else
@@ -114,7 +116,9 @@ export const injectGoogleReCaptchaScript = ({
   });
   const js = document.createElement('script');
   js.id = scriptId;
-  js.src = `${googleRecaptchaSrc}?render=${reCaptchaKey}${
+  js.src = `${googleRecaptchaSrc}?render=${render}${
+    render === 'explicit' ? `&onload=${onLoadCallbackName}` : ''
+  }${
     language ? `&hl=${language}` : ''
   }`;
 
