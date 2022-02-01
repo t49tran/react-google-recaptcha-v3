@@ -34,6 +34,7 @@ interface IGoogleReCaptchaProviderProps {
   inlineBadgeId?: string | HTMLElement;
   parameters?: {
     sitekey?: string;
+    badge?: string;
     theme?: string;
     size?: string;
     tabindex?: number;
