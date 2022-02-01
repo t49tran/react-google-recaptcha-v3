@@ -1,5 +1,6 @@
 interface InjectGoogleReCaptchaScriptParams {
-  reCaptchaKey: string;
+  render: string;
+  onLoadCallbackName: string;
   useRecaptchaNet: boolean;
   useEnterprise: boolean;
   onLoad: () => void;
@@ -83,7 +84,8 @@ export const cleanGoogleRecaptcha = (scriptId: string) => {
  * @returns
  */
 export const injectGoogleReCaptchaScript = ({
-  reCaptchaKey,
+  render,
+  onLoadCallbackName,
   language,
   onLoad,
   useRecaptchaNet,
@@ -114,7 +116,9 @@ export const injectGoogleReCaptchaScript = ({
   });
   const js = document.createElement('script');
   js.id = scriptId;
-  js.src = `${googleRecaptchaSrc}?render=${reCaptchaKey}${
+  js.src = `${googleRecaptchaSrc}?render=${render}${
+    render === 'explicit' ? `&onload=${onLoadCallbackName}` : ''
+  }${
     language ? `&hl=${language}` : ''
   }`;
 
