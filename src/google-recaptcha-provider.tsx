@@ -88,6 +88,7 @@ export function GoogleReCaptchaProvider({
     const onLoadCallbackName = scriptProps?.onLoadCallbackName || 'onRecaptchaLoadCallback';
 
     ((window as unknown) as {[key: string]: () => void})[onLoadCallbackName] = () => {
+      /* eslint-disable @typescript-eslint/no-explicit-any */
       const grecaptcha = useEnterprise
         ? (window as any).grecaptcha.enterprise
         : (window as any).grecaptcha;

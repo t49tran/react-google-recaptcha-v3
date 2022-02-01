@@ -1,4 +1,4 @@
-interface InjectGoogleReCaptchaScriptParams {
+interface IInjectGoogleReCaptchaScriptParams {
   render: string;
   onLoadCallbackName: string;
   useRecaptchaNet: boolean;
@@ -39,7 +39,7 @@ const generateGoogleRecaptchaSrc = ({
  */
 const cleanGstaticRecaptchaScript = () => {
   const script = document.querySelector(
-    `script[src^='https://www.gstatic.com/recaptcha/releases']`
+    'script[src^="https://www.gstatic.com/recaptcha/releases"]'
   );
 
   if (script) {
@@ -95,9 +95,9 @@ export const injectGoogleReCaptchaScript = ({
     defer = false,
     async = false,
     id = '',
-    appendTo = undefined
+    appendTo
   } = {}
-}: InjectGoogleReCaptchaScriptParams) => {
+}: IInjectGoogleReCaptchaScriptParams) => {
   const scriptId = id || 'google-recaptcha-v3';
 
   // Script has already been injected, just call onLoad and does othing else
