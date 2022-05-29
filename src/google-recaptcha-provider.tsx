@@ -59,6 +59,8 @@ export function GoogleReCaptchaProvider({
     execute: Function;
   }>(null);
 
+  const scriptPropsJson = JSON.stringify(scriptProps);
+
   useEffect(() => {
     if (!reCaptchaKey) {
       logWarningMessage(
@@ -105,7 +107,7 @@ export function GoogleReCaptchaProvider({
     return () => {
       cleanGoogleRecaptcha(scriptId);
     };
-  }, [useEnterprise, useRecaptchaNet, scriptProps, language, reCaptchaKey]);
+  }, [useEnterprise, useRecaptchaNet, scriptPropsJson, language, reCaptchaKey]);
 
   const executeRecaptcha = useCallback(
     async (action?: string) => {
