@@ -145,7 +145,7 @@ export const injectGoogleReCaptchaScript = ({
  */
 export const logWarningMessage = (message: string) => {
   const isDevelopmentMode =
-    !!process && !!process.env && process.env.NODE_ENV !== 'production';
+    typeof process !== 'undefined' && !!process.env && process.env.NODE_ENV !== 'production';
 
   if (isDevelopmentMode) {
     return;
