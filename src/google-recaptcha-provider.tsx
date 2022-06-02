@@ -1,5 +1,4 @@
-import React from 'react';
-import {
+import React, {
   useRef,
   useMemo,
   useState,
@@ -47,6 +46,7 @@ interface IGoogleReCaptchaProviderProps {
 
 export interface IGoogleReCaptchaConsumerProps {
   executeRecaptcha?: (action?: string) => Promise<string>;
+  inlineBadgeId?: string | HTMLElement;
 }
 
 const GoogleReCaptchaContext = createContext<IGoogleReCaptchaConsumerProps>({
@@ -67,15 +67,15 @@ export function GoogleReCaptchaProvider({
   scriptProps,
   language,
   inlineBadgeId,
-  parameters = {},
+  parameters,
   children
 }: IGoogleReCaptchaProviderProps) {
   const [greCaptchaInstance, setGreCaptchaInstance] = useState<null | {
     execute: Function;
   }>(null);
   const clientId = useRef<number | string>(reCaptchaKey);
-
-  const scriptPropsJson = JSON.stringify(scriptProps);
+  const { current: scriptPropsRef } = useRef<any>(scriptProps);
+  const { current: parametersRef } = useRef<any>(parameters);
 
   useEffect(() => {
     if (!reCaptchaKey) {
@@ -86,8 +86,8 @@ export function GoogleReCaptchaProvider({
       return;
     }
 
-    const scriptId = scriptProps?.id || 'google-recaptcha-v3';
-    const onLoadCallbackName = scriptProps?.onLoadCallbackName || 'onRecaptchaLoadCallback';
+    const scriptId = scriptPropsRef?.id || 'google-recaptcha-v3';
+    const onLoadCallbackName = scriptPropsRef?.onLoadCallbackName || 'onRecaptchaLoadCallback';
 
     ((window as unknown) as {[key: string]: () => void})[onLoadCallbackName] = () => {
       /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -99,7 +99,7 @@ export function GoogleReCaptchaProvider({
         badge: 'inline',
         size: 'invisible',
         sitekey: reCaptchaKey,
-        ...(parameters || {})
+        ...(parametersRef || {})
       };
       clientId.current = grecaptcha.render(inlineBadgeId, params);
     };
@@ -131,7 +131,7 @@ export function GoogleReCaptchaProvider({
       onLoadCallbackName,
       useEnterprise,
       useRecaptchaNet,
-      scriptProps,
+      scriptProps: scriptPropsRef,
       language,
       onLoad,
       onError
@@ -140,17 +140,24 @@ export function GoogleReCaptchaProvider({
     return () => {
       cleanGoogleRecaptcha(scriptId);
     };
-  }, [useEnterprise, useRecaptchaNet, scriptPropsJson, language, reCaptchaKey]);
+  }, [
+    useEnterprise,
+    useRecaptchaNet,
+    scriptPropsRef,
+    parametersRef,
+    language,
+    reCaptchaKey
+  ]);
 
   const executeRecaptcha = useCallback(
-    async (action?: string) => {
+    (action?: string) => {
       if (!greCaptchaInstance || !greCaptchaInstance.execute) {
         throw new Error(
           '<GoogleReCaptchaProvider /> Google Recaptcha has not been loaded'
         );
       }
 
-      return await greCaptchaInstance.execute(clientId.current, { action });
+      return greCaptchaInstance.execute(clientId.current, { action });
     },
     [greCaptchaInstance, clientId]
   );

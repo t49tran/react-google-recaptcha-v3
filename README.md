@@ -82,7 +82,7 @@ There are three ways to trigger the recaptcha validation: using the `GoogleReCap
 
 #### GoogleReCaptcha
 
-`GoogleRecaptcha` is a react component that can be used in your app to trigger the validation. It provides a prop `onVerify`, which will be called once the verify is done successfully.
+`GoogleRecaptcha` is a react component that can be used in your app to trigger the validation. It provides a prop `onVerify`, which will be called once the verify is done successfully, also supports a prop `refreshReCaptcha` which supports any type of value and is used to force recaptcha to revalidate (you can use a timestamp updated after every submit), there is an example below.
 
 ```javascript
 import {
@@ -115,6 +115,36 @@ const MyComponent: FC = () => {
           setToken(token);
         }}
       />
+    </div>
+  );
+};
+```
+
+```javascript
+// Example of refreshReCaptcha option:
+
+const MyComponent: FC = () => {
+  const [token, setToken] = useState();
+  const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
+
+  const onVerify = useCallback((token) => {
+    setToken(token);
+  });
+
+  const doSomething = () => {
+    /* do something like submit a form and then refresh recaptcha */
+    setRefreshReCaptcha(r => !r);
+  }
+
+  return (
+    <div>
+      <GoogleReCaptcha
+        onVerify={onVerify}
+        refreshReCaptcha={refreshReCaptcha}
+      />
+      <button onClick={doSomething}>
+        Do Something
+      </button>
     </div>
   );
 };
