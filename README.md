@@ -43,7 +43,7 @@ Same thing applied when you use this library with framework such as Next.js or R
 
 | **Props**       | **Type** | **Default** | **Required?** | **Note**                                                                                                                                                                                                                                                        |
 | --------------- | :------: | ----------: | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| reCaptchaKey    | Boolean  |             | Yes           | Your recaptcha key, get one from [here](https://www.google.com/recaptcha/intro/v3.html)                                                                                                                                                                         |
+| reCaptchaKey    | String  |             | Yes           | Your recaptcha key, get one from [here](https://www.google.com/recaptcha/intro/v3.html)                                                                                                                                                                         |
 | scriptProps     |  Object  |             | No            | You can customize the injected `script` tag with this prop. It allows you to add `async`, `defer`, `nonce` attributes to the script tag. You can also control whether the injected script will be added to the document body or head with `appendTo` attribute. |
 | language        |  String  |             | No            | optional prop to support different languages that is supported by Google Recaptcha. https://developers.google.com/recaptcha/docs/language                                                                                                                       |
 | useRecaptchaNet | Boolean  |       false | No            | The provider also provide the prop `useRecaptchaNet` to load script from `recaptcha.net`: https://developers.google.com/recaptcha/docs/faq#can-i-use-recaptcha-globally                                                                                         |
@@ -140,7 +140,7 @@ const YourReCaptchaComponent = () => {
 
     const token = await executeRecaptcha('yourAction');
     // Do whatever you want with the token
-  }, []);
+  }, [executeRecaptcha]);
 
   // You can use useEffect to trigger the verification as soon as the component being loaded
   useEffect(() => {

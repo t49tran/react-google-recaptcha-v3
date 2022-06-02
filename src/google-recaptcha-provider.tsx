@@ -75,6 +75,8 @@ export function GoogleReCaptchaProvider({
   }>(null);
   const clientId = useRef<number | string>(reCaptchaKey);
 
+  const scriptPropsJson = JSON.stringify(scriptProps);
+
   useEffect(() => {
     if (!reCaptchaKey) {
       logWarningMessage(
@@ -138,7 +140,7 @@ export function GoogleReCaptchaProvider({
     return () => {
       cleanGoogleRecaptcha(scriptId);
     };
-  }, [useEnterprise, useRecaptchaNet, scriptProps, language, reCaptchaKey]);
+  }, [useEnterprise, useRecaptchaNet, scriptPropsJson, language, reCaptchaKey]);
 
   const executeRecaptcha = useCallback(
     async (action?: string) => {

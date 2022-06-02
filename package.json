@@ -1,6 +1,6 @@
 {
   "name": "react-google-recaptcha-v3",
-  "version": "1.9.6",
+  "version": "1.9.8",
   "description": "React component for google-recaptcha v3",
   "module": "dist/react-google-recaptcha-v3.esm.js",
   "main": "dist/react-google-recaptcha-v3.cjs.js",
@@ -20,8 +20,8 @@
     "url": "https://github.com/t49tran/react-google-recaptcha-v3"
   },
   "peerDependencies": {
-    "react": "^17.0",
-    "react-dom": "^17.0"
+    "react": "^17.0 || ^18.0",
+    "react-dom": "^17.0 || ^18.0"
   },
   "dependencies": {
     "hoist-non-react-statics": "^3.3.2"
