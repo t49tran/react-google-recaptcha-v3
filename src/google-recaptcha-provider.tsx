@@ -17,30 +17,34 @@ enum GoogleRecaptchaError {
   SCRIPT_NOT_AVAILABLE = 'Recaptcha script is not available'
 }
 
+interface IScriptProps {
+  nonce?: string;
+  defer?: boolean;
+  async?: boolean;
+  appendTo?: 'head' | 'body';
+  id?: string;
+  onLoadCallbackName?: string;
+}
+
+interface IParameters {
+  sitekey?: string;
+  badge?: string;
+  theme?: string;
+  size?: string;
+  tabindex?: number;
+  callback?: () => void;
+  expiredCallback?: () => void;
+  errorCallback?: () => void;
+}
+
 interface IGoogleReCaptchaProviderProps {
   reCaptchaKey: string;
   language?: string;
   useRecaptchaNet?: boolean;
   useEnterprise?: boolean;
-  scriptProps?: {
-    nonce?: string;
-    defer?: boolean;
-    async?: boolean;
-    appendTo?: 'head' | 'body';
-    id?: string;
-    onLoadCallbackName?: string;
-  };
+  scriptProps?: IScriptProps;
   inlineBadgeId?: string | HTMLElement;
-  parameters?: {
-    sitekey?: string;
-    badge?: string;
-    theme?: string;
-    size?: string;
-    tabindex?: number;
-    callback?: () => void;
-    expiredCallback?: () => void;
-    errorCallback?: () => void;
-  };
+  parameters?: IParameters;
   children: ReactNode;
 }
 
@@ -74,8 +78,9 @@ export function GoogleReCaptchaProvider({
     execute: Function;
   }>(null);
   const clientId = useRef<number | string>(reCaptchaKey);
-  const { current: scriptPropsRef } = useRef<any>(scriptProps);
-  const { current: parametersRef } = useRef<any>(parameters);
+
+  const scriptPropsJson = JSON.stringify(scriptProps);
+  const parametersJson = JSON.stringify(parameters);
 
   useEffect(() => {
     if (!reCaptchaKey) {
@@ -86,8 +91,8 @@ export function GoogleReCaptchaProvider({
       return;
     }
 
-    const scriptId = scriptPropsRef?.id || 'google-recaptcha-v3';
-    const onLoadCallbackName = scriptPropsRef?.onLoadCallbackName || 'onRecaptchaLoadCallback';
+    const scriptId = scriptProps?.id || 'google-recaptcha-v3';
+    const onLoadCallbackName = scriptProps?.onLoadCallbackName || 'onRecaptchaLoadCallback';
 
     ((window as unknown) as {[key: string]: () => void})[onLoadCallbackName] = () => {
       /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -99,7 +104,7 @@ export function GoogleReCaptchaProvider({
         badge: 'inline',
         size: 'invisible',
         sitekey: reCaptchaKey,
-        ...(parametersRef || {})
+        ...(parameters || {})
       };
       clientId.current = grecaptcha.render(inlineBadgeId, params);
     };
@@ -131,7 +136,7 @@ export function GoogleReCaptchaProvider({
       onLoadCallbackName,
       useEnterprise,
       useRecaptchaNet,
-      scriptProps: scriptPropsRef,
+      scriptProps,
       language,
       onLoad,
       onError
@@ -143,8 +148,8 @@ export function GoogleReCaptchaProvider({
   }, [
     useEnterprise,
     useRecaptchaNet,
-    scriptPropsRef,
-    parametersRef,
+    scriptPropsJson,
+    parametersJson,
     language,
     reCaptchaKey
   ]);

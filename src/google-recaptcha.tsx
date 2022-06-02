@@ -5,7 +5,7 @@ import { logWarningMessage } from './utils';
 export interface IGoogleRecaptchaProps {
   onVerify: (token: string) => void | Promise<void>;
   action?: string;
-  refreshReCaptcha?: any,
+  refreshReCaptcha?: boolean | string | number | null;
 }
 
 export function GoogleReCaptcha({
@@ -19,8 +19,7 @@ export function GoogleReCaptcha({
     const { executeRecaptcha } = googleRecaptchaContextValue;
 
     if (!executeRecaptcha) {
-      // return value is not used, but here is used to avoid unused dependencies
-      return refreshReCaptcha;
+      return;
     }
 
     const handleExecuteRecaptcha = async () => {
