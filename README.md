@@ -1,9 +1,9 @@
-<h1 align="center">React Google Recaptcha V3</h1>
+<h1 align="center">Fork of React Google Recaptcha V3</h1>
 <div align="center">
 
 [React](https://reactjs.org/) library for integrating Google ReCaptcha V3 to your App.
 
-[![npm package](https://img.shields.io/npm/v/react-google-recaptcha-v3/latest.svg)](https://www.npmjs.com/package/react-google-recaptcha-v3)
+[![npm package](https://img.shields.io/npm/v/react-google-recaptcha-v3/latest.svg)](https://www.npmjs.com/package/@ramirezcgn/react-google-recaptcha-v3)
 ![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)
 ![type definition](https://img.shields.io/npm/types/react-google-recaptcha-v3)
 
@@ -12,7 +12,7 @@
 ## Install
 
 ```bash
-npm install react-google-recaptcha-v3
+npm install @ramirezcgn/react-google-recaptcha-v3
 ```
 
 ## Usage
@@ -48,6 +48,8 @@ Same thing applied when you use this library with framework such as Next.js or R
 | language        |  String  |             | No            | optional prop to support different languages that is supported by Google Recaptcha. https://developers.google.com/recaptcha/docs/language                                                                                                                       |
 | useRecaptchaNet | Boolean  |       false | No            | The provider also provide the prop `useRecaptchaNet` to load script from `recaptcha.net`: https://developers.google.com/recaptcha/docs/faq#can-i-use-recaptcha-globally                                                                                         |
 | useEnterprise   | Boolean  |       false | No            | [Enterprise option](#enterprise)                                                                                                                                                                                                                                |
+| inlineBadgeId   |  String  |             | No            | Container ID where the recaptcha badge will be rendered                                                                                                                                                                                                         |
+| parameters      |  Object  |             | No            | Configuration for the inline badge (See google recaptcha docs)                                                                                                                                                                                                  |
 
 ```javascript
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
@@ -63,6 +65,11 @@ ReactDom.render(
       defer: false, // optional, default to false
       appendTo: 'head', // optional, default to "head", can be "head" or "body",
       nonce: undefined // optional, default undefined
+    }}
+    inlineBadgeId="g-recaptcha" // optional to make it inline (there must exists a container with this Id)
+    parameters={{// optional inline badge configuration
+      badge: 'inline',
+      size: 'invisible'
     }}
   >
     <YourApp />
