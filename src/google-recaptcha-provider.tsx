@@ -17,34 +17,30 @@ enum GoogleRecaptchaError {
   SCRIPT_NOT_AVAILABLE = 'Recaptcha script is not available'
 }
 
-interface IScriptProps {
-  nonce?: string;
-  defer?: boolean;
-  async?: boolean;
-  appendTo?: 'head' | 'body';
-  id?: string;
-  onLoadCallbackName?: string;
-}
-
-interface IParameters {
-  sitekey?: string;
-  badge?: string;
-  theme?: string;
-  size?: string;
-  tabindex?: number;
-  callback?: () => void;
-  expiredCallback?: () => void;
-  errorCallback?: () => void;
-}
-
 interface IGoogleReCaptchaProviderProps {
   reCaptchaKey: string;
   language?: string;
   useRecaptchaNet?: boolean;
   useEnterprise?: boolean;
-  scriptProps?: IScriptProps;
+  scriptProps?: {
+    nonce?: string;
+    defer?: boolean;
+    async?: boolean;
+    appendTo?: 'head' | 'body';
+    id?: string;
+    onLoadCallbackName?: string;
+  };
   inlineBadgeId?: string | HTMLElement;
-  parameters?: IParameters;
+  parameters?: {
+    sitekey?: string;
+    badge?: string;
+    theme?: string;
+    size?: string;
+    tabindex?: number;
+    callback?: () => void;
+    expiredCallback?: () => void;
+    errorCallback?: () => void;
+  };
   children: ReactNode;
 }
 
