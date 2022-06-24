@@ -37,10 +37,10 @@ export function GoogleReCaptcha({
     handleExecuteRecaptcha();
   }, [action, onVerify, refreshReCaptcha, googleRecaptchaContextValue]);
 
-  const { inlineBadgeId } = googleRecaptchaContextValue;
-  
-  if (typeof inlineBadgeId === 'string') {
-    return <div id={inlineBadgeId} />;  
+  const { container } = googleRecaptchaContextValue;
+
+  if (typeof container === 'string') {
+    return <div id={container} />;
   }
 
   return null;

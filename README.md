@@ -41,15 +41,15 @@ Usually, your application only needs one provider. You should place it as high a
 
 Same thing applied when you use this library with framework such as Next.js or React Router and only want to include the script on a single page. Try to make sure you only have one instance of the provider on a React tree and to place it as high (on the tree) as possible.
 
-| **Props**       | **Type** | **Default** | **Required?** | **Note**                                                                                                                                                                                                                                                        |
-| --------------- | :------: | ----------: | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| reCaptchaKey    | String  |             | Yes           | Your recaptcha key, get one from [here](https://www.google.com/recaptcha/intro/v3.html)                                                                                                                                                                         |
-| scriptProps     |  Object  |             | No            | You can customize the injected `script` tag with this prop. It allows you to add `async`, `defer`, `nonce` attributes to the script tag. You can also control whether the injected script will be added to the document body or head with `appendTo` attribute. |
-| language        |  String  |             | No            | optional prop to support different languages that is supported by Google Recaptcha. https://developers.google.com/recaptcha/docs/language                                                                                                                       |
-| useRecaptchaNet | Boolean  |       false | No            | The provider also provide the prop `useRecaptchaNet` to load script from `recaptcha.net`: https://developers.google.com/recaptcha/docs/faq#can-i-use-recaptcha-globally                                                                                         |
-| useEnterprise   | Boolean  |       false | No            | [Enterprise option](#enterprise)                                                                                                                                                                                                                                |
-| inlineBadgeId   |  String  |             | No            | Container ID where the recaptcha badge will be rendered                                                                                                                                                                                                         |
-| parameters      |  Object  |             | No            | Configuration for the inline badge (See google recaptcha docs)                                                                                                                                                                                                  |
+| **Props**            |     **Type**     | **Default** | **Required?** | **Note**                                                                                                                                                                                                                                                        |
+|----------------------|:----------------:| ----------: | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| reCaptchaKey         |      String      |             | Yes           | Your recaptcha key, get one from [here](https://www.google.com/recaptcha/intro/v3.html)                                                                                                                                                                         |
+| scriptProps          |      Object      |             | No            | You can customize the injected `script` tag with this prop. It allows you to add `async`, `defer`, `nonce` attributes to the script tag. You can also control whether the injected script will be added to the document body or head with `appendTo` attribute. |
+| language             |      String      |             | No            | optional prop to support different languages that is supported by Google Recaptcha. https://developers.google.com/recaptcha/docs/language                                                                                                                       |
+| useRecaptchaNet      |     Boolean      |       false | No            | The provider also provide the prop `useRecaptchaNet` to load script from `recaptcha.net`: https://developers.google.com/recaptcha/docs/faq#can-i-use-recaptcha-globally                                                                                         |
+| useEnterprise        |     Boolean      |       false | No            | [Enterprise option](#enterprise)                                                                                                                                                                                                                                |
+| container.element    | String HTMLElement |             | No            | Container ID where the recaptcha badge will be rendered                                                                                                                                                                                                         |
+| container.parameters |      Object      |             | No            | Configuration for the inline badge (See google recaptcha docs)                                                                                                                                                                                                  |
 
 ```javascript
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
@@ -66,10 +66,12 @@ ReactDom.render(
       appendTo: 'head', // optional, default to "head", can be "head" or "body",
       nonce: undefined // optional, default undefined
     }}
-    inlineBadgeId="g-recaptcha" // optional to make it inline (there must exists a container with this Id)
-    parameters={{// optional inline badge configuration
-      badge: 'inline',
-      size: 'invisible'
+    container={{ // optional to render inside custom element
+      element: "[required_id_or_htmlelement]",
+      parameters: {
+        badge: '[inline|bottomright|bottomleft]', // optional, default undefined
+        theme: 'dark', // optional, default undefined
+      }
     }}
   >
     <YourApp />
