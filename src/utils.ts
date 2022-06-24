@@ -96,15 +96,9 @@ export const cleanBadge = (container?: HTMLElement | string) => {
     return;
   }
 
-  if (typeof container === 'string') {
-    const customBadge = document.getElementById(container);
+  const customBadge = typeof container === 'string' ? document.getElementById(container) : container;
 
-    cleanCustomBadge(customBadge);
-
-    return;
-  }
-
-  cleanCustomBadge(container);
+  cleanCustomBadge(customBadge);
 };
 
 /**
