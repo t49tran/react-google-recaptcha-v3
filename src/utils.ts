@@ -57,16 +57,68 @@ export const isScriptInjected = (scriptId: string) =>
   !!document.querySelector(`#${scriptId}`);
 
 /**
- * Function to clean google recaptcha script
+ * Function to remove default badge
  *
- * @param scriptId
+ * @returns
  */
-export const cleanGoogleRecaptcha = (scriptId: string) => {
-  // remove badge
+const removeDefaultBadge = () => {
   const nodeBadge = document.querySelector('.grecaptcha-badge');
   if (nodeBadge && nodeBadge.parentNode) {
     document.body.removeChild(nodeBadge.parentNode);
   }
+};
+
+/**
+ * Function to clear custom badge
+ *
+ * @returns
+ */
+const cleanCustomBadge = (customBadge: HTMLElement | null) => {
+  if (!customBadge) {
+    return;
+  }
+
+  while (customBadge.lastChild) {
+    customBadge.lastChild.remove();
+  }
+};
+
+/**
+ * Function to clean node of badge element
+ *
+ * @param container
+ * @returns
+ */
+export const cleanBadge = (container?: HTMLElement | string) => {
+  if (!container) {
+    removeDefaultBadge();
+
+    return;
+  }
+
+  if (typeof container === 'string') {
+    const customBadge = document.getElementById(container);
+
+    cleanCustomBadge(customBadge);
+
+    return;
+  }
+
+  cleanCustomBadge(container);
+};
+
+/**
+ * Function to clean google recaptcha script
+ *
+ * @param scriptId
+ * @param container
+ */
+export const cleanGoogleRecaptcha = (scriptId: string, container?: HTMLElement | string) => {
+  // remove badge
+  cleanBadge(container);
+
+  // remove old config from window
+  (window as any).___grecaptcha_cfg = undefined;
 
   // remove script
   const script = document.querySelector(`#${scriptId}`);

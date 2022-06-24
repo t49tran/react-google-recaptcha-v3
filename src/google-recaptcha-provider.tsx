@@ -1,11 +1,11 @@
 import React, {
-  useRef,
-  useMemo,
-  useState,
-  useEffect,
-  useCallback,
   createContext,
-  ReactNode
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
 } from 'react';
 import {
   cleanGoogleRecaptcha,
@@ -30,23 +30,23 @@ interface IGoogleReCaptchaProviderProps {
     id?: string;
     onLoadCallbackName?: string;
   };
-  inlineBadgeId?: string | HTMLElement;
-  parameters?: {
-    sitekey?: string;
-    badge?: string;
-    theme?: string;
-    size?: string;
-    tabindex?: number;
-    callback?: () => void;
-    expiredCallback?: () => void;
-    errorCallback?: () => void;
+  container?: {
+    element: string | HTMLElement;
+    parameters: {
+      badge?: 'inline' | 'bottomleft' | 'bottomright';
+      theme?: 'dark' | 'light';
+      tabindex?: number;
+      callback?: () => void;
+      expiredCallback?: () => void;
+      errorCallback?: () => void;
+    }
   };
   children: ReactNode;
 }
 
 export interface IGoogleReCaptchaConsumerProps {
   executeRecaptcha?: (action?: string) => Promise<string>;
-  inlineBadgeId?: string | HTMLElement;
+  container?: string | HTMLElement;
 }
 
 const GoogleReCaptchaContext = createContext<IGoogleReCaptchaConsumerProps>({
@@ -66,8 +66,7 @@ export function GoogleReCaptchaProvider({
   useRecaptchaNet = false,
   scriptProps,
   language,
-  inlineBadgeId,
-  parameters,
+  container,
   children
 }: IGoogleReCaptchaProviderProps) {
   const [greCaptchaInstance, setGreCaptchaInstance] = useState<null | {
@@ -76,7 +75,7 @@ export function GoogleReCaptchaProvider({
   const clientId = useRef<number | string>(reCaptchaKey);
 
   const scriptPropsJson = JSON.stringify(scriptProps);
-  const parametersJson = JSON.stringify(parameters);
+  const parametersJson = JSON.stringify(container?.parameters);
 
   useEffect(() => {
     if (!reCaptchaKey) {
@@ -100,9 +99,9 @@ export function GoogleReCaptchaProvider({
         badge: 'inline',
         size: 'invisible',
         sitekey: reCaptchaKey,
-        ...(parameters || {})
+        ...(container?.parameters || {})
       };
-      clientId.current = grecaptcha.render(inlineBadgeId, params);
+      clientId.current = grecaptcha.render(container?.element, params);
     };
 
     const onLoad = () => {
@@ -128,7 +127,7 @@ export function GoogleReCaptchaProvider({
     };
 
     injectGoogleReCaptchaScript({
-      render: inlineBadgeId ? 'explicit' : reCaptchaKey,
+      render: container?.element ? 'explicit' : reCaptchaKey,
       onLoadCallbackName,
       useEnterprise,
       useRecaptchaNet,
@@ -139,7 +138,7 @@ export function GoogleReCaptchaProvider({
     });
 
     return () => {
-      cleanGoogleRecaptcha(scriptId);
+      cleanGoogleRecaptcha(scriptId, container?.element);
     };
   }, [
     useEnterprise,
@@ -147,7 +146,8 @@ export function GoogleReCaptchaProvider({
     scriptPropsJson,
     parametersJson,
     language,
-    reCaptchaKey
+    reCaptchaKey,
+    container?.element,
   ]);
 
   const executeRecaptcha = useCallback(
@@ -166,9 +166,9 @@ export function GoogleReCaptchaProvider({
   const googleReCaptchaContextValue = useMemo(
     () => ({
       executeRecaptcha: greCaptchaInstance ? executeRecaptcha : undefined,
-      inlineBadgeId,
+      container: container?.element,
     }),
-    [executeRecaptcha, greCaptchaInstance, inlineBadgeId]
+    [executeRecaptcha, greCaptchaInstance, container?.element]
   );
 
   return (
