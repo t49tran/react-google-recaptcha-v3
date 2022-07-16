@@ -1,5 +1,6 @@
-interface InjectGoogleReCaptchaScriptParams {
-  reCaptchaKey: string;
+interface IInjectGoogleReCaptchaScriptParams {
+  render: string;
+  onLoadCallbackName: string;
   useRecaptchaNet: boolean;
   useEnterprise: boolean;
   onLoad: () => void;
@@ -38,7 +39,7 @@ const generateGoogleRecaptchaSrc = ({
  */
 const cleanGstaticRecaptchaScript = () => {
   const script = document.querySelector(
-    `script[src^='https://www.gstatic.com/recaptcha/releases']`
+    'script[src^="https://www.gstatic.com/recaptcha/releases"]'
   );
 
   if (script) {
@@ -56,16 +57,63 @@ export const isScriptInjected = (scriptId: string) =>
   !!document.querySelector(`#${scriptId}`);
 
 /**
- * Function to clean google recaptcha script
+ * Function to remove default badge
  *
- * @param scriptId
+ * @returns
  */
-export const cleanGoogleRecaptcha = (scriptId: string) => {
-  // remove badge
+const removeDefaultBadge = () => {
   const nodeBadge = document.querySelector('.grecaptcha-badge');
   if (nodeBadge && nodeBadge.parentNode) {
     document.body.removeChild(nodeBadge.parentNode);
   }
+};
+
+/**
+ * Function to clear custom badge
+ *
+ * @returns
+ */
+const cleanCustomBadge = (customBadge: HTMLElement | null) => {
+  if (!customBadge) {
+    return;
+  }
+
+  while (customBadge.lastChild) {
+    customBadge.lastChild.remove();
+  }
+};
+
+/**
+ * Function to clean node of badge element
+ *
+ * @param container
+ * @returns
+ */
+export const cleanBadge = (container?: HTMLElement | string) => {
+  if (!container) {
+    removeDefaultBadge();
+
+    return;
+  }
+
+  const customBadge = typeof container === 'string' ? document.getElementById(container) : container;
+
+  cleanCustomBadge(customBadge);
+};
+
+/**
+ * Function to clean google recaptcha script
+ *
+ * @param scriptId
+ * @param container
+ */
+export const cleanGoogleRecaptcha = (scriptId: string, container?: HTMLElement | string) => {
+  // remove badge
+  cleanBadge(container);
+
+  // remove old config from window
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  (window as any).___grecaptcha_cfg = undefined;
 
   // remove script
   const script = document.querySelector(`#${scriptId}`);
@@ -83,7 +131,8 @@ export const cleanGoogleRecaptcha = (scriptId: string) => {
  * @returns
  */
 export const injectGoogleReCaptchaScript = ({
-  reCaptchaKey,
+  render,
+  onLoadCallbackName,
   language,
   onLoad,
   useRecaptchaNet,
@@ -93,9 +142,9 @@ export const injectGoogleReCaptchaScript = ({
     defer = false,
     async = false,
     id = '',
-    appendTo = undefined
+    appendTo
   } = {}
-}: InjectGoogleReCaptchaScriptParams) => {
+}: IInjectGoogleReCaptchaScriptParams) => {
   const scriptId = id || 'google-recaptcha-v3';
 
   // Script has already been injected, just call onLoad and does othing else
@@ -114,7 +163,9 @@ export const injectGoogleReCaptchaScript = ({
   });
   const js = document.createElement('script');
   js.id = scriptId;
-  js.src = `${googleRecaptchaSrc}?render=${reCaptchaKey}${
+  js.src = `${googleRecaptchaSrc}?render=${render}${
+    render === 'explicit' ? `&onload=${onLoadCallbackName}` : ''
+  }${
     language ? `&hl=${language}` : ''
   }`;
 
