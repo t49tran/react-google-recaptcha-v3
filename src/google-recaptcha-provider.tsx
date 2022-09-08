@@ -17,7 +17,22 @@ enum GoogleRecaptchaError {
   SCRIPT_NOT_AVAILABLE = 'Recaptcha script is not available'
 }
 
-interface IGoogleReCaptchaProviderProps {
+export type Size = 'compact' | 'invisible' | 'normal';
+export type Badge = 'inline' | 'bottomleft' | 'bottomright';
+export interface IGoogleReCaptchaProviderContainerProps {
+  element: string | HTMLElement;
+  parameters: {
+    badge?: Badge;
+    theme?: 'dark' | 'light';
+    tabindex?: number;
+    callback?: () => void;
+    expiredCallback?: () => void;
+    errorCallback?: () => void;
+    size?: Size;
+  };
+}
+
+export interface IGoogleReCaptchaProviderProps {
   reCaptchaKey: string;
   language?: string;
   useRecaptchaNet?: boolean;
@@ -30,18 +45,7 @@ interface IGoogleReCaptchaProviderProps {
     id?: string;
     onLoadCallbackName?: string;
   };
-  container?: {
-    element: string | HTMLElement;
-    parameters: {
-      badge?: 'inline' | 'bottomleft' | 'bottomright';
-      theme?: 'dark' | 'light';
-      tabindex?: number;
-      callback?: () => void;
-      expiredCallback?: () => void;
-      errorCallback?: () => void;
-      size?: 'compact' | 'invisible' | 'normal';
-    };
-  };
+  container?: IGoogleReCaptchaProviderContainerProps;
   children: ReactNode;
 }
 
@@ -98,13 +102,12 @@ export function GoogleReCaptchaProvider({
           ? window.grecaptcha.enterprise
           : window.grecaptcha;
 
-        const params = {
+        clientId.current = grecaptcha.render(container?.element as any, {
           badge: 'inline',
           size: 'invisible',
           sitekey: reCaptchaKey,
           ...container?.parameters
-        };
-        clientId.current = grecaptcha.render(container?.element as any, params);
+        });
       };
 
     const onLoad = () => {
