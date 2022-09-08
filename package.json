@@ -24,6 +24,7 @@
     "react-dom": "^17.0 || ^18.0"
   },
   "dependencies": {
+    "@types/grecaptcha": "^3.0.4",
     "hoist-non-react-statics": "^3.3.2"
   },
   "devDependencies": {

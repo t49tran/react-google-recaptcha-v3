@@ -39,7 +39,8 @@ interface IGoogleReCaptchaProviderProps {
       callback?: () => void;
       expiredCallback?: () => void;
       errorCallback?: () => void;
-    }
+      size?: 'compact' | 'invisible' | 'normal';
+    };
   };
   children: ReactNode;
 }
@@ -87,25 +88,27 @@ export function GoogleReCaptchaProvider({
     }
 
     const scriptId = scriptProps?.id || 'google-recaptcha-v3';
-    const onLoadCallbackName = scriptProps?.onLoadCallbackName || 'onRecaptchaLoadCallback';
+    const onLoadCallbackName =
+      scriptProps?.onLoadCallbackName || 'onRecaptchaLoadCallback';
 
-    ((window as unknown) as {[key: string]: () => void})[onLoadCallbackName] = () => {
-      /* eslint-disable @typescript-eslint/no-explicit-any */
-      const grecaptcha = useEnterprise
-        ? (window as any).grecaptcha.enterprise
-        : (window as any).grecaptcha;
+    (window as unknown as { [key: string]: () => void })[onLoadCallbackName] =
+      () => {
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        const grecaptcha = useEnterprise
+          ? window.grecaptcha.enterprise
+          : window.grecaptcha;
 
-      const params = {
-        badge: 'inline',
-        size: 'invisible',
-        sitekey: reCaptchaKey,
-        ...(container?.parameters || {})
+        const params = {
+          badge: 'inline',
+          size: 'invisible',
+          sitekey: reCaptchaKey,
+          ...container?.parameters
+        };
+        clientId.current = grecaptcha.render(container?.element as any, params);
       };
-      clientId.current = grecaptcha.render(container?.element, params);
-    };
 
     const onLoad = () => {
-      if (!window || !(window as any).grecaptcha) {
+      if (!window || !window.grecaptcha) {
         logWarningMessage(
           `<GoogleRecaptchaProvider /> ${GoogleRecaptchaError.SCRIPT_NOT_AVAILABLE}`
         );
@@ -114,8 +117,8 @@ export function GoogleReCaptchaProvider({
       }
 
       const grecaptcha = useEnterprise
-        ? (window as any).grecaptcha.enterprise
-        : (window as any).grecaptcha;
+        ? window.grecaptcha.enterprise
+        : window.grecaptcha;
 
       grecaptcha.ready(() => {
         setGreCaptchaInstance(grecaptcha);
@@ -147,7 +150,7 @@ export function GoogleReCaptchaProvider({
     parametersJson,
     language,
     reCaptchaKey,
-    container?.element,
+    container?.element
   ]);
 
   const executeRecaptcha = useCallback(
@@ -166,7 +169,7 @@ export function GoogleReCaptchaProvider({
   const googleReCaptchaContextValue = useMemo(
     () => ({
       executeRecaptcha: greCaptchaInstance ? executeRecaptcha : undefined,
-      container: container?.element,
+      container: container?.element
     }),
     [executeRecaptcha, greCaptchaInstance, container?.element]
   );
