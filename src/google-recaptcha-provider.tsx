@@ -31,7 +31,7 @@ interface IGoogleReCaptchaProviderProps {
     onLoadCallbackName?: string;
   };
   container?: {
-    element: string | HTMLElement;
+    element?: string | HTMLElement;
     parameters: {
       badge?: 'inline' | 'bottomleft' | 'bottomright';
       theme?: 'dark' | 'light';
