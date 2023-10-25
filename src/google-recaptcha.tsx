@@ -18,6 +18,9 @@ export function GoogleReCaptcha({
 
   const hasVerify = !!onVerify;
 
+  // handleVerify is a stable reference
+  // and therefore will not trip the useEffect into an infinite loop
+  // when onVerify is an anonymous or otherwise changing function.
   const handleVerify = useStableCallback(onVerify);
 
   useEffect(() => {
