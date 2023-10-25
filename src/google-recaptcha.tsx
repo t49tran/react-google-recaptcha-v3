@@ -3,12 +3,6 @@ import { useGoogleReCaptcha } from './use-google-recaptcha';
 import { useStableCallback } from './use-stable-callback';
 import { logWarningMessage } from './utils';
 
-/*
-to avoid onVerify tripping the use effect on every render,
-the useStableCallback hook is used to expose a stable reference
-that will stay up to date if a new version is passed in
-*/
-
 export interface IGoogleRecaptchaProps {
   onVerify: (token: string) => void | Promise<void>;
   action?: string;

@@ -41,15 +41,15 @@ Usually, your application only needs one provider. You should place it as high a
 
 Same thing applied when you use this library with framework such as Next.js or React Router and only want to include the script on a single page. Try to make sure you only have one instance of the provider on a React tree and to place it as high (on the tree) as possible.
 
-| **Props**            |      **Type**      | **Default** | **Required?** | **Note**                                                                                                                                                                                                                                                        |
-| -------------------- | :----------------: | ----------: | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| reCaptchaKey         |       String       |             | Yes           | Your recaptcha key, get one from [here](https://www.google.com/recaptcha/intro/v3.html)                                                                                                                                                                         |
-| scriptProps          |       Object       |             | No            | You can customize the injected `script` tag with this prop. It allows you to add `async`, `defer`, `nonce` attributes to the script tag. You can also control whether the injected script will be added to the document body or head with `appendTo` attribute. |
-| language             |       String       |             | No            | optional prop to support different languages that is supported by Google Recaptcha. https://developers.google.com/recaptcha/docs/language                                                                                                                       |
-| useRecaptchaNet      |      Boolean       |       false | No            | The provider also provide the prop `useRecaptchaNet` to load script from `recaptcha.net`: https://developers.google.com/recaptcha/docs/faq#can-i-use-recaptcha-globally                                                                                         |
-| useEnterprise        |      Boolean       |       false | No            | [Enterprise option](#enterprise)                                                                                                                                                                                                                                |
+| **Props**            |     **Type**     | **Default** | **Required?** | **Note**                                                                                                                                                                                                                                                        |
+|----------------------|:----------------:| ----------: | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| reCaptchaKey         |      String      |             | Yes           | Your recaptcha key, get one from [here](https://www.google.com/recaptcha/intro/v3.html)                                                                                                                                                                         |
+| scriptProps          |      Object      |             | No            | You can customize the injected `script` tag with this prop. It allows you to add `async`, `defer`, `nonce` attributes to the script tag. You can also control whether the injected script will be added to the document body or head with `appendTo` attribute. |
+| language             |      String      |             | No            | optional prop to support different languages that is supported by Google Recaptcha. https://developers.google.com/recaptcha/docs/language                                                                                                                       |
+| useRecaptchaNet      |     Boolean      |       false | No            | The provider also provide the prop `useRecaptchaNet` to load script from `recaptcha.net`: https://developers.google.com/recaptcha/docs/faq#can-i-use-recaptcha-globally                                                                                         |
+| useEnterprise        |     Boolean      |       false | No            | [Enterprise option](#enterprise)                                                                                                                                                                                                                                |
 | container.element    | String HTMLElement |             | No            | Container ID where the recaptcha badge will be rendered                                                                                                                                                                                                         |
-| container.parameters |       Object       |             | No            | Configuration for the inline badge (See google recaptcha docs)                                                                                                                                                                                                  |
+| container.parameters |      Object      |             | No            | Configuration for the inline badge (See google recaptcha docs)                                                                                                                                                                                                  |
 
 ```javascript
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
@@ -66,12 +66,11 @@ ReactDom.render(
       appendTo: 'head', // optional, default to "head", can be "head" or "body",
       nonce: undefined // optional, default undefined
     }}
-    container={{
-      // optional to render inside custom element
-      element: '[required_id_or_htmlelement]',
+    container={{ // optional to render inside custom element
+      element: "[required_id_or_htmlelement]",
       parameters: {
         badge: '[inline|bottomright|bottomleft]', // optional, default undefined
-        theme: 'dark' // optional, default undefined
+        theme: 'dark', // optional, default undefined
       }
     }}
   >
@@ -102,20 +101,42 @@ ReactDom.render(
 ```
 
 ```javascript
+// IMPORTANT NOTES: The `GoogleReCaptcha` component is a wrapper around `useGoogleRecaptcha` hook and use `useEffect` to run the verification.
+// It's important that you understand how React hooks work to use it properly.
+// Avoid using inline function for the `onVerify` props as it can possibly cause the verify function to run continously.
+// To avoid that problem, you can use a memoized function provided by `React.useCallback` or a class method
+// The code below is an example that inline function can result in an infinite loop and the verify function runs continously:
+
+const MyComponent: FC = () => {
+  const [token, setToken] = useState();
+
+  return (
+    <div>
+      <GoogleReCaptcha
+        onVerify={token => {
+          setToken(token);
+        }}
+      />
+    </div>
+  );
+};
+```
+
+```javascript
 // Example of refreshReCaptcha option:
 
 const MyComponent: FC = () => {
   const [token, setToken] = useState();
   const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
 
-  const onVerify = useCallback(token => {
+  const onVerify = useCallback((token) => {
     setToken(token);
   });
 
   const doSomething = () => {
     /* do something like submit a form and then refresh recaptcha */
     setRefreshReCaptcha(r => !r);
-  };
+  }
 
   return (
     <div>
@@ -123,7 +144,9 @@ const MyComponent: FC = () => {
         onVerify={onVerify}
         refreshReCaptcha={refreshReCaptcha}
       />
-      <button onClick={doSomething}>Do Something</button>
+      <button onClick={doSomething}>
+        Do Something
+      </button>
     </div>
   );
 };
