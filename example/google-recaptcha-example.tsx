@@ -13,7 +13,7 @@ export const GoogleRecaptchaExample: FC = () => {
       return;
     }
 
-    const result = await executeRecaptcha('dynamicAction');
+    const result = await executeRecaptcha(dynamicAction);
 
     setToken(result);
     setNoOfVerifications(noOfVerifications => noOfVerifications + 1);
