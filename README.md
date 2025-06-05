@@ -101,28 +101,6 @@ ReactDom.render(
 ```
 
 ```javascript
-// IMPORTANT NOTES: The `GoogleReCaptcha` component is a wrapper around `useGoogleRecaptcha` hook and use `useEffect` to run the verification.
-// It's important that you understand how React hooks work to use it properly.
-// Avoid using inline function for the `onVerify` props as it can possibly cause the verify function to run continously.
-// To avoid that problem, you can use a memoized function provided by `React.useCallback` or a class method
-// The code below is an example that inline function can result in an infinite loop and the verify function runs continously:
-
-const MyComponent: FC = () => {
-  const [token, setToken] = useState();
-
-  return (
-    <div>
-      <GoogleReCaptcha
-        onVerify={token => {
-          setToken(token);
-        }}
-      />
-    </div>
-  );
-};
-```
-
-```javascript
 // Example of refreshReCaptcha option:
 
 const MyComponent: FC = () => {
