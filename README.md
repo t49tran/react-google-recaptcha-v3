@@ -37,7 +37,7 @@ The complete documentation to the enterprise version you can see [here](https://
 
 `GoogleReCaptchaProvider`'s responsibility is to load the necessary reCaptcha script and provide access to reCaptcha to the rest of your application.
 
-Usually, your application only needs one provider. You should place it as high as possible in your React tree. It's to make sure you only have one instance of Google Recaptcha per page and it doesn't reload unecessarily when your components re-rendered.
+Usually, your application only needs one provider. You should place it as high as possible in your React tree. It's to make sure you only have one instance of Google Recaptcha per page and it doesn't reload unnecessarily when your components re-rendered.
 
 Same thing applied when you use this library with framework such as Next.js or React Router and only want to include the script on a single page. Try to make sure you only have one instance of the provider on a React tree and to place it as high (on the tree) as possible.
 
